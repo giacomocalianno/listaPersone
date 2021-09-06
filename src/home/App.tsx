@@ -3,7 +3,7 @@ import '../App.css';
 import HomeContainer from "./HomeContainer";
 import Intestazione from "./Intestazione"
 import {CircularProgress, Container, makeStyles} from "@material-ui/core";
-import useProva from "./useProva";
+import {useFetchPeopleList} from "./useFetchPeopleList";
 
 export interface IPerson {
     createdAt: string
@@ -26,45 +26,13 @@ const useStyles = makeStyles({
     }
 })
 
+const PERSON_LIST_URL = 'https://612f5b495fc50700175f159f.mockapi.io/api/users'
+
 const App: React.FC = props => {
 
-    const [people, setPeople] = useState<IPerson[]>();
-    const [fetching, setFetching] = useState<Boolean>(true);
-    const [error, setError] = useState<Boolean>(false);
     const classes = useStyles();
 
-    useEffect(() => {
-        // per far vedere che funziona lo spinner chiamo la fetch dopo 2 secondi
-        // fetch
-        (async () => {
-            const res = await fetch("https://612f5b495fc50700175f159f.mockapi.io/api/users")
-            if (!res.ok) {
-                setError(true)
-            }
-            const data = await res.json();
-            setPeople(data)
-            // .then(res => {
-            //     if (!res.ok) {
-            //         throw Error("Errore nel caricamento dei dati")
-            //     }
-            //     return res.json()
-            // })
-            // .then(data => {
-            //     // salvo le persone
-            //     setPeople(data);
-            // })
-            // .catch(err => {
-            //         setError(true);
-            //         console.log(`Errore: ${err.message}`)
-            //     }
-            // )
-        })()
-
-        // stoppo lo spinner
-        setFetching(false)
-    }, []);
-
-    const prova = useProva(fetching, error, people);
+    const {people, fetching, error} = useFetchPeopleList(PERSON_LIST_URL);
 
     return (
         <Container>
@@ -75,19 +43,19 @@ const App: React.FC = props => {
 
                     {/*se fetching è true allora non ha finito di caricare i dati e lo spinner è attivo*/}
                     <div>
-                        {prova.fetching &&
+                        {fetching &&
                         <div className={classes.center}>
                             <CircularProgress color="primary"/>
                         </div>
                         }
 
-                        {prova.error &&
+                        {error &&
                         <div className={classes.center}>
                             <h2>Errore durante il caricamento </h2>
                         </div>
                         }
 
-                        {!prova.fetching && !prova.error && < HomeContainer people={people}/>}
+                        {!fetching && !error && < HomeContainer people={people}/>}
                         <div className="col">
                             {/*seconda colonna*/}
                             col2
