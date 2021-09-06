@@ -144,7 +144,11 @@ const App: React.FC = props => {
                     </div>
                     }
 
-                    {error && <h1>Errore nel caricamento</h1>}
+                    {error &&
+                    <div className={classes.center}>
+                        <h2>Errore durante il caricamento </h2>
+                    </div>
+                    }
 
                     {!fetching && !error && < HomeContainer people={people}/>}
                     <div className="col">
