@@ -5,7 +5,7 @@ import {IPerson} from "./App";
 import PersonDetailDialog from "./components/PersonDetailDialog";
 
 interface IHomeContainerProps {
-    people: IPerson[];
+    people?: IPerson[];
     person?: IPerson
 }
 
@@ -33,7 +33,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
             <div className="row m-2 w-100 d-flex justify-content-center align-items-center"
                  style={{backgroundColor: "lightgray", borderRadius: "8px"}}>
                 <List className="w-100">
-                    {people.map((person: IPerson) => (
+                    {people?.map((person: IPerson) => (
                         <DetailItem person={person} key={person.id} handleItemClick={handleItemClick}/>
                     ))}
                 </List>
