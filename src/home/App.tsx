@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../App.css';
 import HomeContainer from "./HomeContainer";
 import Intestazione from "./Intestazione"
@@ -88,11 +88,8 @@ const people: IPerson[] = [{
     "birthCoutry": "Borders",
     "id": "8"
 }];
- 
-const App: React.FC = props => {
 
-    const [open, setOpen] = useState<boolean>(false);
-    const [personDialog, setPerson] = useState<IPerson | null>();
+const App: React.FC = props => {
 
     return (
         <Container>
