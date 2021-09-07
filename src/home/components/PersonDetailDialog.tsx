@@ -1,25 +1,28 @@
-import React, {useState} from 'react';
-import {Dialog, DialogContentText, DialogTitle, makeStyles} from "@material-ui/core";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import React from 'react';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    makeStyles,
+    Typography
+} from "@material-ui/core";
 import {IPerson} from "../App";
+import {TransitEnterexit} from "@material-ui/icons";
 
 interface IPersonDetailsDialogProps {
     person?: IPerson
     open: boolean
+    clickedPeople?: IPerson[]
 
     handleItemClose(): void
 }
 
 const useStyles = makeStyles({
     dialog: {
-        color: 'red',
-        fontSize: 18,
-        "&:hover": {
-            backgroundColor: "black"
-        },
-        "&:active": {
-            color: "white"
-        }
+        color: 'black'
     }
 })
 
@@ -27,25 +30,59 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
 
     const classes = useStyles();
     const {person, open, handleItemClose} = props;
-    const {createdAt, name, surname, birthDate, birthCity, birthCoutry} = person || {};
+    const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked} = person || {};
 
-    console.log(`props persona cliccata ${person}`)
+    console.log(`props persona cliccata` + JSON.stringify(person))
     console.log("Lo stato del dialog è:" + open)
 
     return (
         <>
             <Dialog open={open} maxWidth="md">
-                <DialogTitle>
-                    <div className="d-flex justify-content-center align-items-center">
-                        {name} {surname} <HighlightOffIcon onClick={handleItemClose}/>
-                    </div>
-                </DialogTitle>
-                <DialogContentText className={classes.dialog}>{createdAt}</DialogContentText>
-                <DialogContentText className={classes.dialog}>{name}</DialogContentText>
-                <DialogContentText className={classes.dialog}>{surname}</DialogContentText>
-                <DialogContentText className={classes.dialog}>{birthDate}</DialogContentText>
-                <DialogContentText className={classes.dialog}>{birthCity}</DialogContentText>
-                <DialogContentText className={classes.dialog}>{birthCoutry}</DialogContentText>
+                <DialogContent>
+                    <DialogActions>
+                        <DialogTitle>
+                            {name} {surname}
+                            <Button startIcon={
+                                <TransitEnterexit onClick={handleItemClose} fontSize="medium"/>}>
+                            </Button>
+                        </DialogTitle>
+                    </DialogActions>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography variant="body2">
+                            <b> Created at: </b> {createdAt}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography variant="body2">
+                            <b> Checked: </b> {checked}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography variant="body2">
+                            <b> Name: </b> {name}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography variant="body2">
+                            <b> Surname: </b> {surname}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography variant="body2">
+                            <b> Birth date: </b> {birthDate}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography variant="body2">
+                            <b> Birth city: </b> {birthCity}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography variant="body2">
+                            <b> Birth country: </b> {birthCoutry}
+                        </Typography>
+                    </DialogContentText>
+                </DialogContent>
             </Dialog>
         </>
     )

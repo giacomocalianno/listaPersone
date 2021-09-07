@@ -13,7 +13,8 @@ export interface IPerson {
     birthDate: string
     birthCity: string
     birthCoutry: string
-    id: string
+    id: string,
+    checked?: string
 }
 
 const useStyles = makeStyles({
@@ -27,10 +28,15 @@ const useStyles = makeStyles({
 })
 
 const App: React.FC = props => {
+    let arrayPeople: IPerson[] = [];
 
-    const [people, setPeople] = useState<IPerson[]>();
+    const [people, setPeople] = useState<IPerson[]>([]);
+    const [clickedPeople, setClickedPeople] = useState<IPerson[]>([]);
     const [fetching, setFetching] = useState<Boolean>(true);
     const [error, setError] = useState<Boolean>(false);
+    const [checked, setChecked] = useState(true)
+    const [visible, setVisible] = useState(false)
+
     const classes = useStyles();
 
     useEffect(() => {
@@ -43,21 +49,6 @@ const App: React.FC = props => {
             }
             const data = await res.json();
             setPeople(data)
-            // .then(res => {
-            //     if (!res.ok) {
-            //         throw Error("Errore nel caricamento dei dati")
-            //     }
-            //     return res.json()
-            // })
-            // .then(data => {
-            //     // salvo le persone
-            //     setPeople(data);
-            // })
-            // .catch(err => {
-            //         setError(true);
-            //         console.log(`Errore: ${err.message}`)
-            //     }
-            // )
         })()
 
         // stoppo lo spinner
@@ -66,38 +57,63 @@ const App: React.FC = props => {
 
     const prova = useProva(fetching, error, people);
 
+    const clickedInfo = (person: IPerson) => {
+        if (person.checked === undefined) {
+            person.checked = "true"
+            console.log(person);
+            setVisible(true)
+            clickedPeople?.map(clickedPerson => {
+                const filtered = people?.filter(person => person.id !== clickedPerson.id)
+                setPeople(filtered)
+            })
+            arrayPeople?.push(person)
+            console.log(arrayPeople)
+            setClickedPeople(oldState => [...oldState, person])
+        } else {
+            console.log("Non è undefined")
+            people?.map(person => {
+                const filtered = clickedPeople?.filter(clickedPerson => person.id !== clickedPerson.id)
+                setClickedPeople(filtered)
+            })
+            setPeople(oldState => [...oldState, person])
+        }
+    }
+
     return (
         <Container>
-            <div>
-                <Intestazione/>
-                <div className="row p-2">
-                    {/*Prima colonna*/}
+            <Intestazione/>
+            <div className="row p-2">
+                {/*Prima colonna*/}
 
-                    {/*se fetching è true allora non ha finito di caricare i dati e lo spinner è attivo*/}
-                    <div>
-                        {prova.fetching &&
-                        <div className={classes.center}>
-                            <CircularProgress color="primary"/>
-                        </div>
-                        }
-
-                        {prova.error &&
-                        <div className={classes.center}>
-                            <h2>Errore durante il caricamento </h2>
-                        </div>
-                        }
-
-                        {!prova.fetching && !prova.error && < HomeContainer people={people}/>}
-                        <div className="col">
-                            {/*seconda colonna*/}
-                            col2
-                        </div>
+                {/*se fetching è true allora non ha finito di caricare i dati e lo spinner è attivo*/}
+                <div>
+                    {prova.fetching &&
+                    <div className={classes.center}>
+                        <CircularProgress color="primary"/>
                     </div>
+                    }
+
+                    {prova.error &&
+                    <div className={classes.center}>
+                        <h2>Errore durante il caricamento </h2>
+                    </div>
+                    }
+                </div>
+
+                {/*colonna sinistra*/}
+                <div className="col">
+                    {!prova.fetching && !prova.error &&
+                    <HomeContainer showClickedInfo={clickedInfo} clickedPeople={arrayPeople} people={people}
+                                   checked={checked}/>}
+                </div>
+
+                {/*colonna destra*/}
+                <div className="col">
+                    {!prova.fetching && !prova.error && visible &&
+                    < HomeContainer showClickedInfo={clickedInfo} checked={checked}
+                                    people={clickedPeople}/>}
                 </div>
             </div>
-
-            {/*renderizza l'errore*/}
-
         </Container>
     );
 }

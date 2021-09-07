@@ -7,8 +7,11 @@ import PersonDetailDialog from "./components/PersonDetailDialog";
 interface IHomeContainerProps {
     people?: IPerson[];
     person?: IPerson
-}
+    clickedPeople?: IPerson[]
+    checked: boolean
 
+    showClickedInfo(person?: IPerson): void
+}
 
 const HomeContainer: FC<IHomeContainerProps> = props => {
 
@@ -16,8 +19,6 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
     const [clicked, setClicked] = useState(false)
 
     const handleItemClick = (person: IPerson) => {
-        console.log("handle item click")
-        console.log(person)
         setPerson(person)
         setClicked(true)
     }
@@ -26,20 +27,21 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
         console.log("handle item close")
         setClicked(false)
     }
-    const {people} = props;
+    const {people, showClickedInfo, checked, clickedPeople} = props;
 
     return (
-        <div className="col">
+        <div>
             <div className="row m-2 w-100 d-flex justify-content-center align-items-center"
                  style={{backgroundColor: "lightgray", borderRadius: "8px"}}>
                 <List className="w-100">
                     {people?.map((person: IPerson) => (
-                        <DetailItem person={person} key={person.id} handleItemClick={handleItemClick}/>
+                        <DetailItem person={person} key={person.id} checked={checked} showClickedInfo={showClickedInfo}
+                                    handleItemClick={handleItemClick}/>
                     ))}
                 </List>
-                {console.log("stato di open: " + clicked)}
             </div>
-            {clicked && <PersonDetailDialog person={person} open={clicked} handleItemClose={handleItemClose}/>}
+            {clicked && <PersonDetailDialog clickedPeople={clickedPeople} person={person} open={clicked}
+                                            handleItemClose={handleItemClose}/>}
         </div>
     );
 };
