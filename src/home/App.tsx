@@ -3,7 +3,7 @@ import '../App.css';
 import HomeContainer from "./HomeContainer";
 import Intestazione from "./Intestazione"
 import {CircularProgress, Container, makeStyles} from "@material-ui/core";
-import useProva from "./useProva";
+import useFetchPersone from "./useFetchPersone";
 
 export interface IPerson {
     createdAt: string
@@ -81,7 +81,7 @@ const App: React.FC = props => {
         setFetching(false)
     }, []);
 
-    const prova = useProva(fetching, error, people);
+    const prova = useFetchPersone(fetching, error, people);
 
     const clickedInfo = (person: IPerson) => {
         if (person.checked === undefined) {
