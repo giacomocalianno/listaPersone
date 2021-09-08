@@ -24,8 +24,6 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
         // fetch
         (async () => {
             try {
-
-
                 const res = await fetch(url)
                 if (!res.ok) {
                     setError('Impossibile richiamare il servizio')
@@ -37,21 +35,6 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
                 console.error('impossibile richiamre il servizio ', url, ' error', e)
                 setError('Impossibile richiamare il servizio')
             }
-            // .then(res => {
-            //     if (!res.ok) {
-            //         throw Error("Errore nel caricamento dei dati")
-            //     }
-            //     return res.json()
-            // })
-            // .then(data => {
-            //     // salvo le persone
-            //     setPeople(data);
-            // })
-            // .catch(err => {
-            //         setError(true);
-            //         console.log(`Errore: ${err.message}`)
-            //     }
-            // )
         })()
         // stoppo lo spinner
         setFetching(false)

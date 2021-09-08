@@ -32,8 +32,8 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
     const {person, open, handleItemClose} = props;
     const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked} = person || {};
 
-    console.log(`props persona cliccata` + JSON.stringify(person))
-    console.log("Lo stato del dialog è:" + open)
+    // console.log(`props persona cliccata` + JSON.stringify(person))
+    // console.log("Lo stato del dialog è:" + open)
 
     return (
         <>
@@ -48,37 +48,37 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
                         </DialogTitle>
                     </DialogActions>
                     <DialogContentText className={classes.dialog}>
-                        <Typography variant="body2">
+                        <Typography component="span" variant="body2">
                             <b> Created at: </b> {createdAt}
                         </Typography>
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
-                        <Typography variant="body2">
+                        <Typography component="span" variant="body2">
                             <b> Checked: </b> {checked}
                         </Typography>
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
-                        <Typography variant="body2">
+                        <Typography component="span" variant="body2">
                             <b> Name: </b> {name}
                         </Typography>
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
-                        <Typography variant="body2">
+                        <Typography component="span" variant="body2">
                             <b> Surname: </b> {surname}
                         </Typography>
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
-                        <Typography variant="body2">
+                        <Typography component="span" variant="body2">
                             <b> Birth date: </b> {birthDate}
                         </Typography>
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
-                        <Typography variant="body2">
+                        <Typography component="span" variant="body2">
                             <b> Birth city: </b> {birthCity}
                         </Typography>
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
-                        <Typography variant="body2">
+                        <Typography component="span" variant="body2">
                             <b> Birth country: </b> {birthCoutry}
                         </Typography>
                     </DialogContentText>
