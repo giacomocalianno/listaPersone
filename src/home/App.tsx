@@ -94,11 +94,13 @@ const App: React.FC = props => {
     }
 
     const setSuperUser = (person: IPerson) => {
-        // console.log("super user: " + JSON.stringify(person))
-        setSuperUserNumber(p => p + 1)
-        person.superUser = true
-        setSuperUserPeople(superUserPeople => ({...superUserPeople, person}))
-        console.log("super user: " + JSON.stringify(superUserPeople))
+        // se la persona è gia superuser non fa nulla, altrimenti esegue questa funzione di assegnazione a superuser
+        if (!person.superUser) {
+            setSuperUserNumber(p => p + 1)
+            person.superUser = true
+            setSuperUserPeople(superUserPeople => ({...superUserPeople, person}))
+            console.log("super user: " + JSON.stringify(superUserPeople))
+        }
     }
 
     return (
