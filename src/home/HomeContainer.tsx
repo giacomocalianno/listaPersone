@@ -20,15 +20,17 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
     const [person, setPerson] = useState<IPerson>()
 
     const handleItemClose = () => {
-        console.log("handle item close")
+        // funzione che chiude il dialog
+        console.log("Chiudo il dialog")
         setClicked(false)
     }
 
     const showClickedInfo = (person: IPerson) => {
+        // funzione che apre il dialog e visualizza la persona passata
+        console.log("Apro il dialog")
         setClicked(true)
         setPerson(person)
     }
-
 
     return (
         <div>
@@ -43,6 +45,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
 
                 </List>
             </div>
+            {/* se clicked è true allora è stato cliccato il bottone per visualizzare il dialog */}
             {clicked && <PersonDetailDialog person={person} open={clicked} handleItemClose={handleItemClose}/>}
         </div>
     );

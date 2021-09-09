@@ -30,8 +30,8 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
 
     const classes = useStyles();
     const {person, open, handleItemClose} = props;
-    const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked} = person || {};
-    console.log("checked è : " + checked)
+    const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked, superUser} = person || {};
+    console.log("person : " + JSON.stringify(person))
 
     // console.log(`props persona cliccata` + JSON.stringify(person))
     // console.log("Lo stato del dialog è:" + open)
@@ -43,19 +43,14 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
                     <DialogActions>
                         <DialogTitle>
                             {name} {surname}
-                            <Button startIcon={
-                                <TransitEnterexit onClick={handleItemClose} fontSize="medium"/>}>
+                            <Button onClick={handleItemClose} startIcon={
+                                <TransitEnterexit fontSize="medium"/>}>
                             </Button>
                         </DialogTitle>
                     </DialogActions>
                     <DialogContentText className={classes.dialog}>
                         <Typography component="span" variant="body2">
                             <b> Created at: </b> {createdAt}
-                        </Typography>
-                    </DialogContentText>
-                    <DialogContentText className={classes.dialog}>
-                        <Typography component="span" variant="body2">
-                            <b> Checked: </b> {checked}
                         </Typography>
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
@@ -81,6 +76,16 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
                     <DialogContentText className={classes.dialog}>
                         <Typography component="span" variant="body2">
                             <b> Birth country: </b> {birthCoutry}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography component="span" variant="body2">
+                            <b> Checked: </b> {checked?.toString()}
+                        </Typography>
+                    </DialogContentText>
+                    <DialogContentText className={classes.dialog}>
+                        <Typography component="span" variant="body2">
+                            <b> Super user: </b> {superUser?.toString()}
                         </Typography>
                     </DialogContentText>
                 </DialogContent>

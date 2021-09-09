@@ -57,7 +57,7 @@ const App: React.FC = props => {
     const [checkedPeople, setCheckedPeople] = useState<IPerson[]>()
     const [uncheckedPeople, setUncheckedPeople] = useState<IPerson[]>()
 
-    const fetchResults = useFetchPeopleList("https://612f5b495fc50700175f159f.mockapi.io/api/users");
+    const fetchResults = useFetchPeopleList(URL);
     console.log(fetchResults)
 
     const setCheckedToUnchecked = (person: IPerson) => {
@@ -74,28 +74,33 @@ const App: React.FC = props => {
 
     useEffect(() => {
         setPeople(fetchResults.people)
-        console.log("People setted")
+        console.log("People setted: " + people)
         // people?.map((p: IPerson) => p.checked = !p.checked)
+        // divido le persone in base al valore di checked
         const personeChecked = people?.filter(persona => persona.checked)
         const personeUnchecked = people?.filter(persona => !persona.checked)
 
-        // console.log("PERSONE CHECKED: " + JSON.stringify(personeChecked))
-        // console.log("PERSONE UNCHECKED: " + JSON.stringify(personeUnchecked))
+        console.log("PERSONE CHECKED: " + JSON.stringify(personeChecked))
+        console.log("PERSONE UNCHECKED: " + JSON.stringify(personeUnchecked))
 
         setPeopleChecked!(personeChecked)
         setPeopleUnchecked!(personeUnchecked)
     }, [fetchResults.people, people]);
 
     const setPeopleChecked = (people?: IPerson[]) => {
+        // prendo e setto le persone checked
         setCheckedPeople(people)
     }
     const setPeopleUnchecked = (people?: IPerson[]) => {
+        // prendo e setto le persone unchecked
         setUncheckedPeople(people)
     }
 
     const setSuperUser = (person: IPerson) => {
-        // se la persona è gia superuser non fa nulla, altrimenti esegue questa funzione di assegnazione a superuser
+        // controlla se la persona è gia superuser: non fa nulla
+        // altrimenti esegue questa funzione di assegnazione a superuser
         if (!person.superUser) {
+            // aumento il numero complessivo di persone super user
             setSuperUserNumber(p => p + 1)
             person.superUser = true
             setSuperUserPeople(superUserPeople => ({...superUserPeople, person}))
@@ -108,7 +113,6 @@ const App: React.FC = props => {
             <Intestazione superUserNumber={superUserNumber}/>
             <div className="row p-2">
                 {/*Prima colonna*/}
-
                 {/*se fetching è true allora non ha finito di caricare i dati e lo spinner è attivo*/}
                 <div>
                     {fetchResults.fetching &&
@@ -117,6 +121,7 @@ const App: React.FC = props => {
                     </div>
                     }
 
+                    {/*se ci sono errori nel fetching visualizzo un messaggio d'errore*/}
                     {fetchResults.error &&
                     <div className={classes.center}>
                         <h2>Errore durante il caricamento </h2>
@@ -124,7 +129,7 @@ const App: React.FC = props => {
                     }
                 </div>
 
-                {/*colonna sinistra*/}
+                {/* colonna sinistra, persone con checked = false */}
                 <div className="col">
                     Arrivano dal backend con checked = false
                     {!fetchResults.fetching && !fetchResults.error &&
@@ -133,7 +138,7 @@ const App: React.FC = props => {
                                    people={checkedPeople}/>}
                 </div>
 
-                {/*colonna destra*/}
+                {/* colonna destra, persone con checked = true */}
                 <div className="col">
                     Arrivano dal backend con checked = true
                     {!fetchResults.fetching && !fetchResults.error &&

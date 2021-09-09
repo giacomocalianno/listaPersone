@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {IPerson} from './App'
 
 export interface IFetchPeopleListReturn {
@@ -13,6 +13,7 @@ export interface IFetchPeopleListReturn {
  * @param url
  * @return IFetchPeopleListReturn
  */
+
 export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
 
     const [people, setPeople] = useState<IPerson[]>([])
@@ -20,12 +21,12 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        // per far vedere che funziona lo spinner chiamo la fetch dopo 2 secondi
         // fetch
         (async () => {
             try {
                 const res = await fetch(url)
                 if (!res.ok) {
+                    // se c'è un problema con la risposta
                     setError('Impossibile richiamare il servizio')
                 }
                 const data = await res.json()
