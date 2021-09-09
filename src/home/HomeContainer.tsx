@@ -8,11 +8,12 @@ interface IHomeContainerProps {
     people?: IPerson[];
     arrowDirection: string
     setCheckedUnchecked: (person: IPerson) => void
+    setSuperUser: (person: IPerson) => void
 }
 
 const HomeContainer: FC<IHomeContainerProps> = props => {
 
-    const {people, arrowDirection, setCheckedUnchecked} = props;
+    const {people, arrowDirection, setCheckedUnchecked, setSuperUser} = props;
     // console.log(people)
 
     const [clicked, setClicked] = useState(false)
@@ -28,6 +29,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
         setPerson(person)
     }
 
+
     return (
         <div>
             <div className="row m-2 w-100 d-flex justify-content-center align-items-center"
@@ -35,7 +37,8 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
                 <List className="w-100">
                     {people?.map((person: IPerson) => (
                         <DetailItem person={person} key={person.id} arrowDirection={arrowDirection}
-                                    showClickedInfo={showClickedInfo} setCheckedUnchecked={setCheckedUnchecked}/>
+                                    showClickedInfo={showClickedInfo} setSuperUser={setSuperUser}
+                                    setCheckedUnchecked={setCheckedUnchecked}/>
                     ))}
 
                 </List>

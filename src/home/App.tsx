@@ -15,6 +15,7 @@ export interface IPerson {
     birthCoutry: string
     id: string,
     checked?: boolean
+    superUser?: boolean
 }
 
 const useStyles = makeStyles({
@@ -50,6 +51,8 @@ const App: React.FC = props => {
     const URL = "https://612f5b495fc50700175f159f.mockapi.io/api/users";
     const classes = useStyles();
 
+    const [superUserNumber, setSuperUserNumber] = useState<number>(0)
+    const [superUserPeople, setSuperUserPeople] = useState<IPerson[]>([])
     const [people, setPeople] = useState<IPerson[]>()
     const [checkedPeople, setCheckedPeople] = useState<IPerson[]>()
     const [uncheckedPeople, setUncheckedPeople] = useState<IPerson[]>()
@@ -90,9 +93,17 @@ const App: React.FC = props => {
         setUncheckedPeople(people)
     }
 
+    const setSuperUser = (person: IPerson) => {
+        // console.log("super user: " + JSON.stringify(person))
+        setSuperUserNumber(p => p + 1)
+        person.superUser = true
+        setSuperUserPeople(superUserPeople => ({...superUserPeople, person}))
+        console.log("super user: " + JSON.stringify(superUserPeople))
+    }
+
     return (
         <Container>
-            <Intestazione/>
+            <Intestazione superUserNumber={superUserNumber}/>
             <div className="row p-2">
                 {/*Prima colonna*/}
 
@@ -115,7 +126,7 @@ const App: React.FC = props => {
                 <div className="col">
                     Arrivano dal backend con checked = false
                     {!fetchResults.fetching && !fetchResults.error &&
-                    <HomeContainer setCheckedUnchecked={setCheckedToUnchecked}
+                    <HomeContainer setSuperUser={setSuperUser} setCheckedUnchecked={setCheckedToUnchecked}
                                    arrowDirection={"right"}
                                    people={checkedPeople}/>}
                 </div>
@@ -124,7 +135,7 @@ const App: React.FC = props => {
                 <div className="col">
                     Arrivano dal backend con checked = true
                     {!fetchResults.fetching && !fetchResults.error &&
-                    <HomeContainer setCheckedUnchecked={setCheckedToUnchecked}
+                    <HomeContainer setSuperUser={setSuperUser} setCheckedUnchecked={setCheckedToUnchecked}
                                    arrowDirection={"left"}
                                    people={uncheckedPeople}/>}
                 </div>
