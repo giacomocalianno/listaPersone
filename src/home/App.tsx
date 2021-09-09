@@ -47,23 +47,44 @@ const useStyles = makeStyles({
 
 const App: React.FC = props => {
 
+    const URL = "https://612f5b495fc50700175f159f.mockapi.io/api/users";
     const classes = useStyles();
 
     const [people, setPeople] = useState<IPerson[]>()
     const [checkedPeople, setCheckedPeople] = useState<IPerson[]>()
     const [uncheckedPeople, setUncheckedPeople] = useState<IPerson[]>()
+
     const fetchResults = useFetchPeopleList("https://612f5b495fc50700175f159f.mockapi.io/api/users");
     console.log(fetchResults)
+
+    const setCheckedToUnchecked = (person: IPerson) => {
+        console.log(person.checked)
+        console.log("funzione opposite checked unchecked")
+        person.checked = !person.checked
+        console.log(person)
+
+        const personeChecked = people?.filter(persona => persona.checked)
+        const personeUnchecked = people?.filter(persona => !persona.checked)
+        setPeopleChecked!(personeChecked)
+        setPeopleUnchecked!(personeUnchecked)
+    }
 
     useEffect(() => {
         setPeople(fetchResults.people)
         console.log("People setted")
-        people?.map((p: IPerson) => p.checked = !p.checked)
+        // people?.map((p: IPerson) => p.checked = !p.checked)
+        const personeChecked = people?.filter(persona => persona.checked)
+        const personeUnchecked = people?.filter(persona => !persona.checked)
+
+        // console.log("PERSONE CHECKED: " + JSON.stringify(personeChecked))
+        // console.log("PERSONE UNCHECKED: " + JSON.stringify(personeUnchecked))
+
+        setPeopleChecked!(personeChecked)
+        setPeopleUnchecked!(personeUnchecked)
     }, [fetchResults.people, people]);
 
     const setPeopleChecked = (people?: IPerson[]) => {
         setCheckedPeople(people)
-
     }
     const setPeopleUnchecked = (people?: IPerson[]) => {
         setUncheckedPeople(people)
@@ -92,17 +113,19 @@ const App: React.FC = props => {
 
                 {/*colonna sinistra*/}
                 <div className="col">
+                    Arrivano dal backend con checked = false
                     {!fetchResults.fetching && !fetchResults.error &&
-                    <HomeContainer setPeopleUnchecked={setPeopleUnchecked}
-                                   setPeopleChecked={setPeopleChecked}
-                                   people={people}/>}
+                    <HomeContainer setCheckedUnchecked={setCheckedToUnchecked}
+                                   arrowDirection={"right"}
+                                   people={checkedPeople}/>}
                 </div>
 
                 {/*colonna destra*/}
                 <div className="col">
+                    Arrivano dal backend con checked = true
                     {!fetchResults.fetching && !fetchResults.error &&
-                    <HomeContainer setPeopleUnchecked={setPeopleUnchecked}
-                                   setPeopleChecked={setPeopleChecked}
+                    <HomeContainer setCheckedUnchecked={setCheckedToUnchecked}
+                                   arrowDirection={"left"}
                                    people={uncheckedPeople}/>}
                 </div>
             </div>

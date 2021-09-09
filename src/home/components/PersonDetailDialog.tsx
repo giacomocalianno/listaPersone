@@ -31,6 +31,7 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
     const classes = useStyles();
     const {person, open, handleItemClose} = props;
     const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked} = person || {};
+    console.log("checked è : " + checked)
 
     // console.log(`props persona cliccata` + JSON.stringify(person))
     // console.log("Lo stato del dialog è:" + open)

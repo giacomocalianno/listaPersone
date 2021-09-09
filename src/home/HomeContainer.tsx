@@ -6,14 +6,14 @@ import PersonDetailDialog from "./components/PersonDetailDialog";
 
 interface IHomeContainerProps {
     people?: IPerson[];
-    setPeopleChecked?: (people?: IPerson[]) => void
-    setPeopleUnchecked?: (people?: IPerson[]) => void
+    arrowDirection: string
+    setCheckedUnchecked: (person: IPerson) => void
 }
 
 const HomeContainer: FC<IHomeContainerProps> = props => {
 
-    const {people, setPeopleChecked, setPeopleUnchecked} = props;
-    console.log(people)
+    const {people, arrowDirection, setCheckedUnchecked} = props;
+    // console.log(people)
 
     const [clicked, setClicked] = useState(false)
     const [person, setPerson] = useState<IPerson>()
@@ -28,27 +28,13 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
         setPerson(person)
     }
 
-    const setCheckedUnchecked = (person?: IPerson) => {
-        console.log(`Id persona cliccata ${person?.id}`)
-        person!.checked = !person?.checked;
-        console.log(person)
-        const personeChecked = people?.filter(persona => persona.checked)
-        const personeUnchecked = people?.filter(persona => !persona.checked)
-
-        console.log("PERSONE CHECKED: " + JSON.stringify(personeChecked))
-        console.log("PERSONE UNCHECKED: " + JSON.stringify(personeUnchecked))
-
-        setPeopleChecked!(personeChecked)
-        setPeopleUnchecked!(personeUnchecked)
-    }
-
     return (
         <div>
             <div className="row m-2 w-100 d-flex justify-content-center align-items-center"
                  style={{backgroundColor: "lightgray", borderRadius: "8px"}}>
                 <List className="w-100">
                     {people?.map((person: IPerson) => (
-                        <DetailItem person={person} key={person.id}
+                        <DetailItem person={person} key={person.id} arrowDirection={arrowDirection}
                                     showClickedInfo={showClickedInfo} setCheckedUnchecked={setCheckedUnchecked}/>
                     ))}
 

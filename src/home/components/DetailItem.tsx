@@ -1,27 +1,21 @@
 import React, {FC} from 'react';
-import {Avatar, Button, Checkbox, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
+import {Avatar, Button, IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import {IPerson} from "../App";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
+import {ArrowBack, ArrowForward} from "@material-ui/icons";
 
 interface IDetailListProps {
     person: IPerson
+    arrowDirection: string
 
     showClickedInfo(person?: IPerson): void
 
-    setCheckedUnchecked: (person?: IPerson) => void
+    setCheckedUnchecked: (person: IPerson) => void
 }
 
 const DetailItem: FC<IDetailListProps> = props => {
 
-    const {showClickedInfo, person, setCheckedUnchecked} = props;
-    // const [person, setPerson] = useState<IPerson>()
-    // const [clicked, setClicked] = useState(false)
-    //
-    // const handleClickInfo = (person?: IPerson) => {
-    //     setClicked(true)
-    //     setPerson(person)
-    // }
-
+    const {showClickedInfo, person, setCheckedUnchecked, arrowDirection} = props;
 
     return (
         <div>
@@ -34,7 +28,16 @@ const DetailItem: FC<IDetailListProps> = props => {
                         <ListItemText>{person?.name}</ListItemText>
                         <Button variant="outlined" startIcon={<ControlPointIcon/>}
                                 onClick={() => showClickedInfo(person)}>More info</Button>
-                        <Checkbox color="primary" onChange={() => setCheckedUnchecked(person)}/>
+                        {/*<Checkbox color="primary" onChange={() => setCheckedUnchecked(person)}/>*/}
+
+                        {arrowDirection === "right" ?
+                            (<IconButton aria-label="delete">
+                                <ArrowForward onClick={() => setCheckedUnchecked(person)}/>
+                            </IconButton>) :
+                            (<IconButton aria-label="delete">
+                                <ArrowBack onClick={() => setCheckedUnchecked(person)}/>
+                            </IconButton>)
+                        }
                     </ListItem>
                 </div>
             </div>
