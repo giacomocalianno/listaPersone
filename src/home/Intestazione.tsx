@@ -2,14 +2,15 @@
 import * as React from 'react';
 import {FC} from 'react';
 import {Typography} from "@material-ui/core";
+import {IPerson} from "./App";
 
 interface Iintestazione {
-    superUserNumber: number
+    superUser?: IPerson[]
 }
 
 const Intestazione: FC<Iintestazione> = props => {
 
-    const {superUserNumber} = props;
+    const {superUser} = props;
 
     return (
         <div>
@@ -17,7 +18,7 @@ const Intestazione: FC<Iintestazione> = props => {
                 App di prova
             </Typography>
             <Typography variant="h6" color="primary" align="center">
-                Numero di super user: {superUserNumber}
+                Numero di super user: {superUser?.length}
             </Typography>
 
         </div>

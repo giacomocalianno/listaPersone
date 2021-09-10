@@ -45,20 +45,29 @@ const useStyles = makeStyles({
     // parte 2 usare useMemo
 */
 
+const URL = "https://612f5b495fc50700175f159f.mockapi.io/api/users";
 
 const App: React.FC = props => {
 
-    const URL = "https://612f5b495fc50700175f159f.mockapi.io/api/users";
     const classes = useStyles();
 
-    const [superUserNumber, setSuperUserNumber] = useState<number>(0)
-    const [superUserPeople, setSuperUserPeople] = useState<IPerson[]>([])
     const [people, setPeople] = useState<IPerson[]>()
-    const [checkedPeople, setCheckedPeople] = useState<IPerson[]>()
-    const [uncheckedPeople, setUncheckedPeople] = useState<IPerson[]>()
 
     const fetchResults = useFetchPeopleList(URL);
     console.log(fetchResults)
+
+    const checkedPeople = people?.filter(persona => persona.checked)
+    const uncheckedPeople = people?.filter(persona => !persona.checked)
+    const superUser = people?.filter(persona => persona.superUser)
+    console.log("ho fatto il filtraggio")
+
+    const filterPeople = () => {
+        const checkedPeople = people?.filter(persona => persona.checked)
+        const uncheckedPeople = people?.filter(persona => !persona.checked)
+        // const superUserPeople = people?.filter(persona => persona.superUser)
+        setPeople(checkedPeople)
+        setPeople(uncheckedPeople)
+    }
 
     const setCheckedToUnchecked = (person: IPerson) => {
         console.log(person.checked)
@@ -66,51 +75,26 @@ const App: React.FC = props => {
         person.checked = !person.checked
         console.log(person)
 
-        const personeChecked = people?.filter(persona => persona.checked)
-        const personeUnchecked = people?.filter(persona => !persona.checked)
-        setPeopleChecked!(personeChecked)
-        setPeopleUnchecked!(personeUnchecked)
+        filterPeople()
     }
 
     useEffect(() => {
         setPeople(fetchResults.people)
         console.log("People setted: " + people)
-        // people?.map((p: IPerson) => p.checked = !p.checked)
-        // divido le persone in base al valore di checked
-        const personeChecked = people?.filter(persona => persona.checked)
-        const personeUnchecked = people?.filter(persona => !persona.checked)
-
-        console.log("PERSONE CHECKED: " + JSON.stringify(personeChecked))
-        console.log("PERSONE UNCHECKED: " + JSON.stringify(personeUnchecked))
-
-        setPeopleChecked!(personeChecked)
-        setPeopleUnchecked!(personeUnchecked)
     }, [fetchResults.people, people]);
-
-    const setPeopleChecked = (people?: IPerson[]) => {
-        // prendo e setto le persone checked
-        setCheckedPeople(people)
-    }
-    const setPeopleUnchecked = (people?: IPerson[]) => {
-        // prendo e setto le persone unchecked
-        setUncheckedPeople(people)
-    }
 
     const setSuperUser = (person: IPerson) => {
         // controlla se la persona è gia superuser: non fa nulla
         // altrimenti esegue questa funzione di assegnazione a superuser
         if (!person.superUser) {
-            // aumento il numero complessivo di persone super user
-            setSuperUserNumber(p => p + 1)
             person.superUser = true
-            setSuperUserPeople(superUserPeople => ({...superUserPeople, person}))
-            console.log("super user: " + JSON.stringify(superUserPeople))
+            filterPeople()
         }
     }
 
     return (
         <Container>
-            <Intestazione superUserNumber={superUserNumber}/>
+            <Intestazione superUser={superUser}/>
             <div className="row p-2">
                 {/*Prima colonna*/}
                 {/*se fetching è true allora non ha finito di caricare i dati e lo spinner è attivo*/}

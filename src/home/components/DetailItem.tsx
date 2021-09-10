@@ -29,10 +29,12 @@ const DetailItem: FC<IDetailListProps> = props => {
                         </ListItemAvatar>
 
                         {/* nome */}
-                        <ListItemText>{person?.name}</ListItemText>
+                        <ListItemText>
+                            {person?.name} &nbsp;
+                            {person.superUser ? <Star/> : null}
+                        </ListItemText>
 
                         {/* se la persona è superuser vedo stella altrimenti no */}
-                        {person.superUser ? <Star/> : null}
 
                         {/* bottone more info */}
                         <Button variant="outlined" startIcon={<ControlPointIcon/>}
