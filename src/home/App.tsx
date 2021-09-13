@@ -60,16 +60,21 @@ const App: React.FC = props => {
     const superUser = people?.filter(persona => persona.superUser)
 
     useEffect(() => {
+        // cosi vedo solo quando people si aggiorna
         console.log('people -> ', people)
     }, [people])
 
     const setCheckedToUnchecked = (person: IPerson) => {
 
         // 1. stesso codice del punto 2 esteso
-        /*const newPerson = {
+        /*
+        // la nuova persona è uguale alla vecchia ma con la proprietà checked invertita
+        const newPerson = {
             ...person,
             checked: !person.checked
         }
+        // devo assegnare la nuova persona alla stessa vecchia persona
+        // quindi ciclo con un map e controllo ogni id, quando lo trovo cambio la newperson con la vecchia
         const newArrayPeople = people.map((p, index, array) => {
             if (p.id === newPerson.id) {
                 return newPerson
@@ -78,7 +83,8 @@ const App: React.FC = props => {
             }
         })
 
-        setPeople(newArrayPeople)*/
+        setPeople(newArrayPeople)
+        */
 
         // 2. forma "abbreviata"
         setPeople(people => people.map(p => ({
@@ -87,25 +93,31 @@ const App: React.FC = props => {
         })))
     }
 
-    /* const objA = { nome: 'Vito', cognome: 'Manu'}
+    /*
+    const objA = { nome: 'Vito', cognome: 'Manu'}
      const objB = { nome: 'Andrea', eta: 25}
      const objMerge = { //nome Vito
          ...objB
          ...objA,
-     }*/
+     }
+     */
 
     useEffect(() => {
         setPeople(fetchResults.people)
     }, [fetchResults.people])
 
     const setSuperUser = (person: IPerson) => {
-        // controlla se la persona è gia superuser: non fa nulla
-        // altrimenti esegue questa funzione di assegnazione a superuser
-        console.log('person.superUser prima: ' + person.superUser)
-        person.superUser = !person.superUser
-        console.log('person.superUser dopo: ' + person.superUser)
-        const superUserPeople = people?.filter(persona => persona.superUser)
-        setPeople(superUserPeople)
+        // creo una nuova persona che ha le stesse proprietà della vecchia ma con superuser invertita
+        const newPerson = {
+            ...person, superUser: !person.superUser
+        }
+        // ciclo le persone finchè non trovo che quella persona --> quindi la ritorno
+        // se non c'è ritorno quella già presente
+        const arraySuperUsers = people.map(persona => {
+            if (persona.id === person.id) return newPerson
+            else return persona
+        })
+        setPeople(arraySuperUsers)
     }
 
     return (
