@@ -50,18 +50,17 @@ const URL = "https://612f5b495fc50700175f159f.mockapi.io/api/users";
 const App: React.FC = props => {
 
     const classes = useStyles();
-
     const [people, setPeople] = useState<IPerson[]>()
 
+    // recupera le persone attraverso l'hook personalizzato
     const fetchResults = useFetchPeopleList(URL);
-    console.log(fetchResults)
-
+    // filtra le persone
     const checkedPeople = people?.filter(persona => persona.checked)
     const uncheckedPeople = people?.filter(persona => !persona.checked)
     const superUser = people?.filter(persona => persona.superUser)
-    console.log("ho fatto il filtraggio")
 
     const filterPeople = () => {
+        console.log("funzione filterPeople")
         const checkedPeople = people?.filter(persona => persona.checked)
         const uncheckedPeople = people?.filter(persona => !persona.checked)
         // const superUserPeople = people?.filter(persona => persona.superUser)
@@ -80,16 +79,16 @@ const App: React.FC = props => {
 
     useEffect(() => {
         setPeople(fetchResults.people)
-        console.log("People setted: " + people)
     }, [fetchResults.people, people]);
 
     const setSuperUser = (person: IPerson) => {
         // controlla se la persona è gia superuser: non fa nulla
         // altrimenti esegue questa funzione di assegnazione a superuser
-        if (!person.superUser) {
-            person.superUser = true
-            filterPeople()
-        }
+        console.log("person.superUser prima: " + person.superUser)
+        person.superUser = !person.superUser
+        console.log("person.superUser dopo: " + person.superUser)
+        const superUserPeople = people?.filter(persona => persona.superUser)
+        setPeople(superUserPeople)
     }
 
     return (
@@ -108,7 +107,7 @@ const App: React.FC = props => {
                     {/*se ci sono errori nel fetching visualizzo un messaggio d'errore*/}
                     {fetchResults.error &&
                     <div className={classes.center}>
-                        <h2>Errore durante il caricamento </h2>
+                        <h2>Errore durante il caricam ento </h2>
                     </div>
                     }
                 </div>

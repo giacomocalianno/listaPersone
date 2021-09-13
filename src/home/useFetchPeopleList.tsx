@@ -23,6 +23,7 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
     useEffect(() => {
         // fetch
         (async () => {
+            console.log("fetching in custom hook")
             try {
                 const res = await fetch(url)
                 if (!res.ok) {
