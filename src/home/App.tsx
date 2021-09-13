@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import '../App.css';
-import HomeContainer from "./HomeContainer";
-import Intestazione from "./Intestazione"
-import {CircularProgress, Container, makeStyles} from "@material-ui/core";
-import {useFetchPeopleList} from "./useFetchPeopleList";
+import React, {useEffect, useState} from 'react'
+import '../App.css'
+import HomeContainer from './HomeContainer'
+import Intestazione from './Intestazione'
+import {CircularProgress, Container, makeStyles} from '@material-ui/core'
+import {useFetchPeopleList} from './useFetchPeopleList'
 
 export interface IPerson {
     createdAt: string
@@ -20,11 +20,11 @@ export interface IPerson {
 
 const useStyles = makeStyles({
     center: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%"
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%'
     }
 })
 
@@ -45,48 +45,65 @@ const useStyles = makeStyles({
     // parte 2 usare useMemo
 */
 
-const URL = "https://612f5b495fc50700175f159f.mockapi.io/api/users";
+const URL = 'https://612f5b495fc50700175f159f.mockapi.io/api/users'
 
 const App: React.FC = props => {
 
-    const classes = useStyles();
-    const [people, setPeople] = useState<IPerson[]>()
+    const classes = useStyles()
+    const [people, setPeople] = useState<IPerson[]>([])
 
     // recupera le persone attraverso l'hook personalizzato
-    const fetchResults = useFetchPeopleList(URL);
+    const fetchResults = useFetchPeopleList(URL)
     // filtra le persone
     const checkedPeople = people?.filter(persona => persona.checked)
     const uncheckedPeople = people?.filter(persona => !persona.checked)
     const superUser = people?.filter(persona => persona.superUser)
 
-    const filterPeople = () => {
-        console.log("funzione filterPeople")
-        const checkedPeople = people?.filter(persona => persona.checked)
-        const uncheckedPeople = people?.filter(persona => !persona.checked)
-        // const superUserPeople = people?.filter(persona => persona.superUser)
-        setPeople(checkedPeople)
-        setPeople(uncheckedPeople)
-    }
+    useEffect(() => {
+        console.log('people -> ', people)
+    }, [people])
 
     const setCheckedToUnchecked = (person: IPerson) => {
-        console.log(person.checked)
-        console.log("funzione opposite checked unchecked")
-        person.checked = !person.checked
-        console.log(person)
 
-        filterPeople()
+        // 1. stesso codice del punto 2 esteso
+        /*const newPerson = {
+            ...person,
+            checked: !person.checked
+        }
+        const newArrayPeople = people.map((p, index, array) => {
+            if (p.id === newPerson.id) {
+                return newPerson
+            } else {
+                return p
+            }
+        })
+
+        setPeople(newArrayPeople)*/
+
+        // 2. forma "abbreviata"
+        setPeople(people => people.map(p => ({
+            ...p,
+            checked: person.id === p.id ? !p.checked : p.checked
+        })))
     }
+
+    /* const objA = { nome: 'Vito', cognome: 'Manu'}
+     const objB = { nome: 'Andrea', eta: 25}
+     const objMerge = { //nome Vito
+         ...objB
+         ...objA,
+     }*/
 
     useEffect(() => {
         setPeople(fetchResults.people)
-    }, [fetchResults.people, people]);
+    }, [fetchResults.people])
 
     const setSuperUser = (person: IPerson) => {
         // controlla se la persona è gia superuser: non fa nulla
         // altrimenti esegue questa funzione di assegnazione a superuser
-        console.log("person.superUser prima: " + person.superUser)
+        console.log('person.superUser prima: ' + person.superUser)
         person.superUser = !person.superUser
-        console.log("person.superUser dopo: " + person.superUser)
+        console.log('person.superUser dopo: ' + person.superUser)
         const superUserPeople = people?.filter(persona => persona.superUser)
         setPeople(superUserPeople)
     }
@@ -117,7 +134,7 @@ const App: React.FC = props => {
                     Arrivano dal backend con checked = false
                     {!fetchResults.fetching && !fetchResults.error &&
                     <HomeContainer setSuperUser={setSuperUser} setCheckedUnchecked={setCheckedToUnchecked}
-                                   arrowDirection={"right"}
+                                   arrowDirection={'right'}
                                    people={checkedPeople}/>}
                 </div>
 
@@ -126,12 +143,12 @@ const App: React.FC = props => {
                     Arrivano dal backend con checked = true
                     {!fetchResults.fetching && !fetchResults.error &&
                     <HomeContainer setSuperUser={setSuperUser} setCheckedUnchecked={setCheckedToUnchecked}
-                                   arrowDirection={"left"}
+                                   arrowDirection={'left'}
                                    people={uncheckedPeople}/>}
                 </div>
             </div>
         </Container>
-    );
+    )
 }
 
-export default App;
+export default App

@@ -31,7 +31,7 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
                     setError('Impossibile richiamare il servizio')
                 }
                 const data = await res.json()
-                console.log(data)
+                //console.log(data)
                 setPeople(data)
 
             } catch (e) {
