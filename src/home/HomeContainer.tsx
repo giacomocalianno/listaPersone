@@ -7,13 +7,11 @@ import PersonDetailDialog from "./components/PersonDetailDialog";
 interface IHomeContainerProps {
     people?: IPerson[];
     arrowDirection: string
-    setCheckedUnchecked: (person: IPerson) => void
-    setSuperUser: (person: IPerson) => void
 }
 
 const HomeContainer: FC<IHomeContainerProps> = props => {
 
-    const {people, arrowDirection, setCheckedUnchecked, setSuperUser} = props;
+    const {people, arrowDirection} = props;
     // console.log(people)
 
     const [clicked, setClicked] = useState(false)
@@ -39,8 +37,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
                 <List className="w-100">
                     {people?.map((person: IPerson) => (
                         <DetailItem person={person} key={person.id} arrowDirection={arrowDirection}
-                                    showClickedInfo={showClickedInfo} setSuperUser={setSuperUser}
-                                    setCheckedUnchecked={setCheckedUnchecked}/>
+                                    showClickedInfo={showClickedInfo}/>
                     ))}
 
                 </List>

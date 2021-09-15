@@ -3,26 +3,37 @@ import {Avatar, Button, IconButton, ListItem, ListItemAvatar, ListItemText} from
 import {IPerson} from "../App";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import {ArrowBack, ArrowForward, Star} from "@material-ui/icons";
+import {store} from "../../redux/store";
+import {checkPerson, superUserPerson, uncheckPerson} from "../../redux/actions";
 
 interface IDetailListProps {
     person: IPerson
     arrowDirection: string
 
     showClickedInfo(person?: IPerson): void
-
-    setSuperUser: (person: IPerson) => void
-    setCheckedUnchecked: (person: IPerson) => void
 }
 
 const DetailItem: FC<IDetailListProps> = props => {
 
-    const {showClickedInfo, person, setCheckedUnchecked, arrowDirection, setSuperUser} = props;
+    const {showClickedInfo, person, arrowDirection} = props;
+
+    const handleCheckDispatch = (person: IPerson) => {
+        store.dispatch(checkPerson(person))
+        //store.dispatch(addPeople(person))
+    }
+
+    const handleUncheckDispatch = (person: IPerson) => {
+        store.dispatch(uncheckPerson(person))
+    }
+    const handleSuperUserDispatch = (person: IPerson) => {
+        store.dispatch(superUserPerson(person))
+    }
 
     return (
         <div>
             <div className="row w-100">
                 <div className="col d-flex justify-content-center align-items-center">
-                    <ListItem onDoubleClick={() => setSuperUser(person)}>
+                    <ListItem onDoubleClick={() => handleSuperUserDispatch(person)}>
                         {/* avatar */}
                         <ListItemAvatar>
                             <Avatar src={person?.avatar} alt="avatar"/>
@@ -43,10 +54,16 @@ const DetailItem: FC<IDetailListProps> = props => {
 
                         {/* controllo la variabile arrowDirection e a seconda del valore visualizzo o freccia a destra o sinistra*/}
                         {arrowDirection === "right" ?
-                            (<IconButton aria-label="delete" onClick={() => setCheckedUnchecked(person)}>
+                            // (<IconButton aria-label="delete" onClick={() => setCheckedUnchecked(person)}>
+                            //     <ArrowForward/>
+                            // </IconButton>) :
+                            // (<IconButton aria-label="delete" onClick={() => setCheckedUnchecked(person)}>
+                            //     <ArrowBack/>
+                            // </IconButton>)
+                            (<IconButton aria-label="delete" onClick={() => handleCheckDispatch(person)}>
                                 <ArrowForward/>
                             </IconButton>) :
-                            (<IconButton aria-label="delete" onClick={() => setCheckedUnchecked(person)}>
+                            (<IconButton aria-label="delete" onClick={() => handleUncheckDispatch(person)}>
                                 <ArrowBack/>
                             </IconButton>)
                         }
