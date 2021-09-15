@@ -49,7 +49,6 @@ const useStyles = makeStyles({
 
 const URL = 'https://612f5b495fc50700175f159f.mockapi.io/api/users'
 
-
 const App: React.FC = props => {
 
     const classes = useStyles()
@@ -57,11 +56,13 @@ const App: React.FC = props => {
 
     // recupera le persone attraverso l'hook personalizzato
     const fetchResults = useFetchPeopleList(URL)
-    // filtra le persone
+
+    // filtra le persone all'avvio e ogni volta che ricarica la pagina
     const checkedPeople = people?.filter(persona => persona.checked)
     const uncheckedPeople = people?.filter(persona => !persona.checked)
     const superUser = people?.filter(persona => persona.superUser)
 
+    // assegno il valore dello state alla variabile results
     const results = useSelector<IPerson>(state => state)
     console.log(results)
 
@@ -89,7 +90,7 @@ const App: React.FC = props => {
     }, [fetchResults.people])
 
     useEffect(() => {
-        // cosi vedo solo quando people si aggiorna
+        // vedo solo quando people si aggiorna
         console.log('people -> ', people)
     }, [people])
 
@@ -159,7 +160,7 @@ const App: React.FC = props => {
 
                 {/* colonna sinistra, persone con checked = true */}
                 <div className="col">
-                    Arrivano dal backend con checked = true
+                    <span> Arrivano dal backend con checked == true </span>
                     {!fetchResults.fetching && !fetchResults.error &&
                     <HomeContainer arrowDirection={'right'}
                                    people={checkedPeople}/>}
@@ -167,7 +168,7 @@ const App: React.FC = props => {
 
                 {/* colonna destra, persone con checked = false */}
                 <div className="col">
-                    Arrivano dal backend con checked = false
+                    <span> Arrivano dal backend con checked == false </span>
                     {!fetchResults.fetching && !fetchResults.error &&
                     <HomeContainer arrowDirection={'left'}
                                    people={uncheckedPeople}/>}
