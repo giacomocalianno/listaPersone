@@ -4,21 +4,21 @@ export const peopleReducer = (state: IPerson[] | undefined, action: any) => {
 
     switch (action.type) {
         case "ADDPEOPLE":
-            return state
+            return state // inutilizzato al momento
         case "CHECK":
             return state = {
-                ...action.payload,
-                checked: !action.payload.checked
+                ...action.payload, // la persona che gli mando dal dispatch
+                checked: !action.payload.checked // cambia il valore di checked col suo inverso
             }
         case "UNCHECK":
             return state = {
-                ...action.payload,
-                checked: !action.payload.checked
+                ...action.payload, // la persona che gli mando dal dispatch
+                checked: !action.payload.checked // cambia il valore di checked col suo inverso
             }
         case "SUPERUSER":
             return state = {
-                ...action.payload,
-                superUser: !action.payload.superUser
+                ...action.payload, // la persona che gli mando dal dispatch
+                superUser: !action.payload.superUser // cambia il valore di superUser col suo inverso
             }
         default:
             return state

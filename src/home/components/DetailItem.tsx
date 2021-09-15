@@ -19,7 +19,6 @@ const DetailItem: FC<IDetailListProps> = props => {
 
     const handleCheckDispatch = (person: IPerson) => {
         store.dispatch(checkPerson(person))
-        //store.dispatch(addPeople(person))
     }
 
     const handleUncheckDispatch = (person: IPerson) => {
