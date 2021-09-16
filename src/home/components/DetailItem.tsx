@@ -5,6 +5,7 @@ import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import {ArrowBack, ArrowForward, Star} from "@material-ui/icons";
 import {store} from "../../redux/store";
 import {checkPerson, superUserPerson, uncheckPerson} from "../../redux/actions";
+import {useDispatch} from 'react-redux'
 
 interface IDetailListProps {
     person: IPerson
@@ -17,16 +18,18 @@ const DetailItem: FC<IDetailListProps> = props => {
 
     const {showClickedInfo, person, arrowDirection} = props;
 
+    const dispatch = useDispatch()
+
     const handleCheckDispatch = (person: IPerson) => {
-        store.dispatch(checkPerson(person))
+        dispatch(checkPerson(person))
     }
     const handleUncheckDispatch = (person: IPerson) => {
-        store.dispatch(uncheckPerson(person))
+        dispatch(uncheckPerson(person))
     }
     const handleSuperUserDispatch = (person: IPerson) => {
-        store.dispatch(superUserPerson(person))
+        dispatch(superUserPerson(person))
     }
-  
+
     return (
         <div>
             <div className="row w-100">

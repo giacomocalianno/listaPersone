@@ -1,7 +1,8 @@
 import {IPerson} from "../home/App";
 import {actionTypes} from "./actionTypes"
+import {IAction} from '../types'
 
-export const addPeople = (person: IPerson) => {
+export const addPeople = (person: IPerson): IAction<IPerson> => {
     return {type: actionTypes.ADD_PEOPLE, payload: person}
 }
 

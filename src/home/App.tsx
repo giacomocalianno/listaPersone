@@ -69,7 +69,6 @@ const App: React.FC = props => {
         // ciclo sulle persone fino a quando non trovo quella
         // che ha lo stesso id di quella che ho modificato
         const personeAggiornate = people.map(person => {
-            // @ts-ignore
             if (person.id === results.id) {
                 // ritorno la persona cambiata
                 return results
@@ -79,9 +78,8 @@ const App: React.FC = props => {
             }
         })
         // console.log("personeAggiornate: " + JSON.stringify(personeAggiornate))
-        // @ts-ignore
         setPeople(personeAggiornate)
-    }, [results]);
+    }, [people, results]);
 
 
     useEffect(() => {
