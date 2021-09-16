@@ -31,11 +31,7 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
                     setError('Impossibile richiamare il servizio')
                 }
                 const data = await res.json()
-                //console.log(data)
                 setPeople(data)
-
-                // aggiungo le persone
-                //dispatch(addPeople(data))
 
             } catch (e) {
                 console.error('impossibile richiamre il servizio ', url, ' error', e)
@@ -43,7 +39,6 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
             }
         })()
         // stoppo lo spinner
-
 
         setFetching(false)
     }, [url])

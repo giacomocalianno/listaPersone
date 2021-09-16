@@ -1,22 +1,36 @@
 import {IPerson} from "../home/App";
 import {actionTypes} from "./actionTypes";
-import {IAction} from '../types'
 
-export const peopleReducer = (state: IPerson[] = [], action: IAction<IPerson>): IPerson[] => {
+export const peopleReducer = (state: IPerson[] = [], action: any): IPerson[] => {
     switch (action.type) {
         case actionTypes.ADD_PEOPLE:
-            return state // inutilizzato al momento
-        case actionTypes.CHECK:
-        case actionTypes.UNCHECK:
-            return {
-                ...action.payload, // la persona che gli mando dal dispatch
-                checked: !action.payload.checked // cambia il valore di checked col suo inverso
-            }
+            return action.payload
+        case actionTypes.FLIPCHECK:
+            return state.map(person => {
+                // ciclo tutte le persone fino a quando non trovo quella che ho cliccato
+                if (person.id === action.payload.id) {
+                    // quando l'ho trovata, prendo quella persona, cambio il valore di checked e la ritorno
+                    return {
+                        ...person,
+                        checked: !person.checked
+                    }
+                } else {
+                    return person
+                }
+            })
         case actionTypes.SUPERUSER:
-            return {
-                ...action.payload, // la persona che gli mando dal dispatch
-                superUser: !action.payload.superUser // cambia il valore di superUser col suo inverso
-            }
+            return state.map(person => {
+                // ciclo tutte le persone fino a quando non trovo quella che ho cliccato
+                if (person.id === action.payload.id) {
+                    // quando l'ho trovata, prendo quella persona, cambio il valore di super user e la ritorno
+                    return {
+                        ...person,
+                        superUser: !person.superUser
+                    }
+                } else {
+                    return person;
+                }
+            })
         default:
             return state
     }

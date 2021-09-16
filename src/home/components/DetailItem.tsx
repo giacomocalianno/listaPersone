@@ -3,8 +3,7 @@ import {Avatar, Button, IconButton, ListItem, ListItemAvatar, ListItemText} from
 import {IPerson} from "../App";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import {ArrowBack, ArrowForward, Star} from "@material-ui/icons";
-import {store} from "../../redux/store";
-import {checkPerson, superUserPerson, uncheckPerson} from "../../redux/actions";
+import {flipCheck, superUserPerson} from "../../redux/actions";
 import {useDispatch} from 'react-redux'
 
 interface IDetailListProps {
@@ -17,14 +16,10 @@ interface IDetailListProps {
 const DetailItem: FC<IDetailListProps> = props => {
 
     const {showClickedInfo, person, arrowDirection} = props;
-
     const dispatch = useDispatch()
 
-    const handleCheckDispatch = (person: IPerson) => {
-        dispatch(checkPerson(person))
-    }
-    const handleUncheckDispatch = (person: IPerson) => {
-        dispatch(uncheckPerson(person))
+    const handleFlipDispatch = (person: IPerson) => {
+        dispatch(flipCheck(person))
     }
     const handleSuperUserDispatch = (person: IPerson) => {
         dispatch(superUserPerson(person))
@@ -59,10 +54,10 @@ const DetailItem: FC<IDetailListProps> = props => {
                             // (<IconButton aria-label="delete" onClick={() => setCheckedUnchecked(person)}>
                             //     <ArrowBack/>
                             // </IconButton>)
-                            (<IconButton aria-label="delete" onClick={() => handleCheckDispatch(person)}>
+                            (<IconButton aria-label="delete" onClick={() => handleFlipDispatch(person)}>
                                 <ArrowForward/>
                             </IconButton>) :
-                            (<IconButton aria-label="delete" onClick={() => handleUncheckDispatch(person)}>
+                            (<IconButton aria-label="delete" onClick={() => handleFlipDispatch(person)}>
                                 <ArrowBack/>
                             </IconButton>)
                         }

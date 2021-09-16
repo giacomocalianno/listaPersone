@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import '../App.css'
 import HomeContainer from './HomeContainer'
 import Intestazione from './Intestazione'
 import {CircularProgress, Container, makeStyles} from '@material-ui/core'
 import {useFetchPeopleList} from './useFetchPeopleList'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {addPeople} from "../redux/actions";
 
 export interface IPerson {
     createdAt: string
@@ -51,84 +52,27 @@ const URL = 'https://612f5b495fc50700175f159f.mockapi.io/api/users'
 const App: React.FC = props => {
 
     const classes = useStyles()
-    const [people, setPeople] = useState<IPerson[]>([])
+    const dispatch = useDispatch()
 
     // recupera le persone attraverso l'hook personalizzato
     const fetchResults = useFetchPeopleList(URL)
+    useEffect(() => {
+        dispatch(addPeople(fetchResults.people))
+    }, [fetchResults.people]);
 
-    // filtra le persone all'avvio e ogni volta che ricarica la pagina
-    const checkedPeople = people?.filter(persona => persona.checked)
-    const uncheckedPeople = people?.filter(persona => !persona.checked)
-    const superUser = people?.filter(persona => persona.superUser)
 
     // assegno il valore dello state alla variabile results
-    const results = useSelector<IPerson>(state => state)
-    console.log(results)
 
+    const results: IPerson[] = useSelector<IPerson[], IPerson[]>(state => state)
     useEffect(() => {
-        // ciclo sulle persone fino a quando non trovo quella
-        // che ha lo stesso id di quella che ho modificato
-        const personeAggiornate = people.map(person => {
-            if (person.id === results.id) {
-                // ritorno la persona cambiata
-                return results
-            } else {
-                // altrimenti ritorno la vecchia persona
-                return person
-            }
-        })
-        // console.log("personeAggiornate: " + JSON.stringify(personeAggiornate))
-        setPeople(personeAggiornate)
-    }, [people, results]);
+        console.log("results:" + JSON.stringify(results))
+    }, [results]);
 
 
-    useEffect(() => {
-        // vedo solo quando people si aggiorna
-        console.log('people -> ', people)
-    }, [people])
+    const checkedPeople = results.filter((persona: IPerson) => persona.checked)
+    const uncheckedPeople = results.filter((persona: IPerson) => !persona.checked)
+    const superUser = results.filter((persona: IPerson) => persona.superUser)
 
-    // const setCheckedToUnchecked = (person: IPerson) => {
-    //
-    //     // 1. stesso codice del punto 2 esteso
-    //     /*
-    //     // la nuova persona è uguale alla vecchia ma con la proprietà checked invertita
-    //     const newPerson = {
-    //         ...person,
-    //         checked: !person.checked
-    //     }
-    //     // devo assegnare la nuova persona alla stessa vecchia persona
-    //     // quindi ciclo con un map e controllo ogni id, quando lo trovo cambio la newperson con la vecchia
-    //     const newArrayPeople = people.map((p, index, array) => {
-    //         if (p.id === newPerson.id) {
-    //             return newPerson
-    //         } else {
-    //             return p
-    //         }
-    //     })
-    //
-    //     setPeople(newArrayPeople)
-    //     */
-    //
-    //     // 2. forma "abbreviata"
-    //     setPeople(people => people.map(p => ({
-    //         ...p,
-    //         checked: person.id === p.id ? !p.checked : p.checked
-    //     })))
-    // }
-
-    // const setSuperUser = (person: IPerson) => {
-    //     // creo una nuova persona che ha le stesse proprietà della vecchia ma con superuser invertita
-    //     const newPerson = {
-    //         ...person, superUser: !person.superUser
-    //     }
-    //     // ciclo le persone finchè non trovo che quella persona --> quindi la ritorno
-    //     // se non c'è ritorno quella già presente
-    //     const arraySuperUsers = people.map(persona => {
-    //         if (persona.id === person.id) return newPerson
-    //         else return persona
-    //     })
-    //     setPeople(arraySuperUsers)
-    // }
 
     return (
         <Container>
