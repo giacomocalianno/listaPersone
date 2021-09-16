@@ -20,14 +20,13 @@ const DetailItem: FC<IDetailListProps> = props => {
     const handleCheckDispatch = (person: IPerson) => {
         store.dispatch(checkPerson(person))
     }
-
     const handleUncheckDispatch = (person: IPerson) => {
         store.dispatch(uncheckPerson(person))
     }
     const handleSuperUserDispatch = (person: IPerson) => {
         store.dispatch(superUserPerson(person))
     }
-
+  
     return (
         <div>
             <div className="row w-100">

@@ -4,7 +4,6 @@ import HomeContainer from './HomeContainer'
 import Intestazione from './Intestazione'
 import {CircularProgress, Container, makeStyles} from '@material-ui/core'
 import {useFetchPeopleList} from './useFetchPeopleList'
-import {store} from "../redux/store";
 import {useSelector} from "react-redux";
 
 export interface IPerson {
@@ -84,10 +83,6 @@ const App: React.FC = props => {
         setPeople(personeAggiornate)
     }, [results]);
 
-    useEffect(() => {
-        setPeople(fetchResults.people)
-        store.subscribe(() => store.getState())
-    }, [fetchResults.people])
 
     useEffect(() => {
         // vedo solo quando people si aggiorna
