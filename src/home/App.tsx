@@ -4,8 +4,14 @@ import HomeContainer from './HomeContainer'
 import Intestazione from './Intestazione'
 import {CircularProgress, Container, makeStyles} from '@material-ui/core'
 import {useFetchPeopleList} from './useFetchPeopleList'
-import {useDispatch, useSelector} from "react-redux";
-import {addPeople} from "../redux/actions";
+import {useDispatch, useSelector} from 'react-redux'
+import {addPeople} from '../redux/actions'
+import {
+    checkedPeopleSelector,
+    peopleSelector,
+    superUserPeopleSelector,
+    uncheckedPeopleSelector
+} from '../redux/selectors'
 
 export interface IPerson {
     createdAt: string
@@ -56,22 +62,19 @@ const App: React.FC = props => {
 
     // recupera le persone attraverso l'hook personalizzato
     const fetchResults = useFetchPeopleList(URL)
+
     useEffect(() => {
         dispatch(addPeople(fetchResults.people))
-    }, [fetchResults.people]);
+    }, [dispatch, fetchResults.people])
 
+    const people = useSelector(peopleSelector)
+    const checkedPeople = useSelector(checkedPeopleSelector)
+    const uncheckedPeople = useSelector(uncheckedPeopleSelector)
+    const superUser = useSelector(superUserPeopleSelector)
 
-    // assegno il valore dello state alla variabile results
-
-    const results: IPerson[] = useSelector<IPerson[], IPerson[]>(state => state)
     useEffect(() => {
-        console.log("results:" + JSON.stringify(results))
-    }, [results]);
-
-
-    const checkedPeople = results.filter((persona: IPerson) => persona.checked)
-    const uncheckedPeople = results.filter((persona: IPerson) => !persona.checked)
-    const superUser = results.filter((persona: IPerson) => persona.superUser)
+        console.log('results:' + JSON.stringify(people))
+    }, [people])
 
 
     return (

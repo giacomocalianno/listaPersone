@@ -4,6 +4,7 @@ import {FC} from 'react';
 import {Typography} from "@material-ui/core";
 import {IPerson} from "./App";
 
+// FIXME props superUnser number
 interface Iintestazione {
     superUser?: IPerson[]
 }

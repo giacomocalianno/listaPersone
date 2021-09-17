@@ -9,7 +9,6 @@ import {useDispatch} from 'react-redux'
 interface IDetailListProps {
     person: IPerson
     arrowDirection: string
-
     showClickedInfo(person?: IPerson): void
 }
 
