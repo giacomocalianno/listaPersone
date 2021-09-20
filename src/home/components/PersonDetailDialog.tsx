@@ -33,9 +33,6 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
     const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked, superUser} = person || {};
     console.log("person : " + JSON.stringify(person))
 
-    // console.log(`props persona cliccata` + JSON.stringify(person))
-    // console.log("Lo stato del dialog è:" + open)
-
     return (
         <>
             <Dialog open={open} maxWidth="md">

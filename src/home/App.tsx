@@ -5,9 +5,11 @@ import Intestazione from './Intestazione'
 import {CircularProgress, Container, makeStyles} from '@material-ui/core'
 import {useFetchPeopleList} from './useFetchPeopleList'
 import {useDispatch, useSelector} from 'react-redux'
-import {addPeople} from '../redux/actions'
+import {addEntities, addIdKeys, addPeople} from '../redux/actions'
 import {
     checkedPeopleSelector,
+    entitiesSelector,
+    extractIdSelector,
     peopleSelector,
     superUserPeopleSelector,
     uncheckedPeopleSelector
@@ -24,6 +26,10 @@ export interface IPerson {
     id: string,
     checked?: boolean
     superUser?: boolean
+}
+
+interface IEntities {
+    [id: string]: Object
 }
 
 const useStyles = makeStyles({
@@ -68,18 +74,33 @@ const App: React.FC = props => {
     }, [dispatch, fetchResults.people])
 
     const people = useSelector(peopleSelector)
+
     const checkedPeople = useSelector(checkedPeopleSelector)
     const uncheckedPeople = useSelector(uncheckedPeopleSelector)
     const superUser = useSelector(superUserPeopleSelector)
+    const idArray = useSelector(extractIdSelector)
+    const entitiesSelec: any = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store
 
     useEffect(() => {
-        console.log('results:' + JSON.stringify(people))
-    }, [people])
+        const entities: IEntities = people.reduce((prev, current) => {
+            return {
+                ...prev, [current.id]: current
+            }
+        }, {})
 
+        // console.log("entities: " + JSON.stringify(entities))
+        dispatch(addEntities(entities))
+        dispatch(addIdKeys(idArray))
+
+
+    }, [people, dispatch, idArray]);
+
+    // prendo ogni numero nell'array e lo metto come indice di ricerca nell'oggetto
+    idArray.forEach(key => console.log("key: " + key + "\n entities[key]: " + JSON.stringify(entitiesSelec[key])))
 
     return (
         <Container>
-            <Intestazione superUser={superUser}/>
+            <Intestazione superUserNumber={superUser.length}/>
             <div className="row p-2">
                 {/*Prima colonna*/}
                 {/*se fetching è true allora non ha finito di caricare i dati e lo spinner è attivo*/}
@@ -93,7 +114,7 @@ const App: React.FC = props => {
                     {/*se ci sono errori nel fetching visualizzo un messaggio d'errore*/}
                     {fetchResults.error &&
                     <div className={classes.center}>
-                        <h2>Errore durante il caricam ento </h2>
+                        <h2>Errore durante il caricamento </h2>
                     </div>
                     }
                 </div>

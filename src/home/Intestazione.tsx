@@ -2,16 +2,14 @@
 import * as React from 'react';
 import {FC} from 'react';
 import {Typography} from "@material-ui/core";
-import {IPerson} from "./App";
 
-// FIXME props superUnser number
 interface Iintestazione {
-    superUser?: IPerson[]
+    superUserNumber: number
 }
 
 const Intestazione: FC<Iintestazione> = props => {
 
-    const {superUser} = props;
+    const {superUserNumber} = props;
 
     return (
         <div>
@@ -19,7 +17,7 @@ const Intestazione: FC<Iintestazione> = props => {
                 App di prova
             </Typography>
             <Typography variant="h6" color="primary" align="center">
-                Numero di super user: {superUser?.length}
+                Numero di super user: {superUserNumber}
             </Typography>
 
         </div>

@@ -19,9 +19,11 @@ const DetailItem: FC<IDetailListProps> = props => {
 
     const handleFlipDispatch = (person: IPerson) => {
         dispatch(flipCheck(person))
+        // dispatch(changeCheckedState(person))
     }
     const handleSuperUserDispatch = (person: IPerson) => {
         dispatch(superUserPerson(person))
+        // dispatch(changeSuperUserState(person))
     }
 
     return (

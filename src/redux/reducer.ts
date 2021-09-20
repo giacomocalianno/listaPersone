@@ -8,7 +8,7 @@ export const peopleReducer = (state: IPerson[] = [], action: IAction<IPerson[] |
             const act = action as IAction<IPerson[]>
             return act.payload
         }
-        case actionTypes.FLIPCHECK: {
+        case actionTypes.FLIP_CHECK: {
             const act = action as IAction<IPerson>
             // FIXME utilizare sintassi abbreviata
             return state.map(person => {
@@ -44,30 +44,26 @@ export const peopleReducer = (state: IPerson[] = [], action: IAction<IPerson[] |
     }
 }
 
-// primo passo per l'esercizio
-const entities = {
-    '231': {
-        id: '231',
-        name: 'Vito'
-        // ...
+export const entitiesReducer = ((state = {}, action: any) => {
+    switch (action.type) {
+        case actionTypes.ADD_ENTITIES: {
+            const act = action as IAction<IPerson[]>
+            return act.payload
+        }
+        default:
+            return state
     }
-}
+})
 
-const keys = ['231', '232', '233']
-// const filteredKeys = ['231', '232']
+export const keysReducer = ((state: string[] = [], action: any): string[] => {
+    switch (action.type) {
+        case actionTypes.ADD_KEYS:
+            return action.payload
+        default:
+            return state
+    }
+})
 
-// entities['232']
-
-//secondo paso
-
-const unckededPeople = ['232', '233']
-const checkedPeople = ['231']
-const superuser = ['232', '231']
-
-// terzo passo
-
-// selector
-// filteredKeys.map(id => entities[id])
 
 
 

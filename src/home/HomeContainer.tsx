@@ -16,7 +16,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
 
     // FIXME utilizziam una sola parte di state per mostrare il dialog
     const [clicked, setClicked] = useState(false)
-    const [person, setPerson] = useState<IPerson | null>()
+    const [person, setPerson] = useState<IPerson>()
 
     const handleItemClose = () => {
         // funzione che chiude il dialog
@@ -44,7 +44,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
                 </List>
             </div>
             {/* se clicked è true allora è stato cliccato il bottone per visualizzare il dialog */}
-            {clicked && <PersonDetailDialog person={person} open={!!person} handleItemClose={handleItemClose}/>}
+            {clicked && <PersonDetailDialog person={person} open={clicked} handleItemClose={handleItemClose}/>}
         </div>
     );
 };

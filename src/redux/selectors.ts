@@ -4,8 +4,7 @@ import {IPerson} from '../home/App'
 
 // Root selector
 export const peopleSelector = (state: IRootState) => state.people
-export const profileSelector = (state: IRootState) => state.profile
-
+export const entitiesSelector = (state: IRootState) => state.entities
 
 // selector
 export const checkedPeopleSelector = createSelector(
@@ -25,8 +24,13 @@ export const superUserPeopleSelector = createSelector(
 )
 
 // selector che combina piu parti di state
-export const isProfileSuperUserSelector = createSelector(
-    superUserPeopleSelector,
-    profileSelector,
-    (superUsers, profile) => superUsers.some(value => value.name === profile.name)
+// export const isProfileSuperUserSelector = createSelector(
+//     superUserPeopleSelector,
+//     profileSelector,
+//     (superUsers, profile) => superUsers.some(value => value.name === profile.name)
+// )
+
+export const extractIdSelector = createSelector(
+    peopleSelector,
+    people => people.map(person => person.id)
 )
