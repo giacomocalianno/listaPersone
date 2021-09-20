@@ -1,5 +1,5 @@
-import {IPerson} from "../home/App";
-import {actionTypes} from "./actionTypes";
+import {IPerson} from '../home/App'
+import {actionTypes} from './actionTypes'
 import {IAction} from '../types'
 
 export const peopleReducer = (state: IPerson[] = [], action: IAction<IPerson[] | IPerson>): IPerson[] => {
@@ -44,21 +44,34 @@ export const peopleReducer = (state: IPerson[] = [], action: IAction<IPerson[] |
     }
 }
 
-export const entitiesReducer = ((state = {}, action: any) => {
+// fixme IPersonEntities
+export interface IEntities {
+    [id: string]: IPerson
+}
+
+export const entitiesReducer = ((state: IEntities = {}, action: IAction<IPerson[]>): IEntities => {
     switch (action.type) {
-        case actionTypes.ADD_ENTITIES: {
+        case actionTypes.ADD_PEOPLE:
+            return action.payload.reduce((prev, current) => {
+                return {
+                    ...prev, [current.id]: current
+                }
+            }, {})
+        /*case actionTypes.ADD_ENTITIES: {
             const act = action as IAction<IPerson[]>
             return act.payload
-        }
+        }*/
         default:
             return state
     }
 })
 
-export const keysReducer = ((state: string[] = [], action: any): string[] => {
+export const keysReducer = ((state: string[] = [], action: IAction<IPerson[]>): string[] => {
     switch (action.type) {
-        case actionTypes.ADD_KEYS:
-            return action.payload
+        case actionTypes.ADD_PEOPLE:
+            return action.payload.map(value => value.id)
+/*        case actionTypes.ADD_KEYS:
+            return action.payload*/
         default:
             return state
     }

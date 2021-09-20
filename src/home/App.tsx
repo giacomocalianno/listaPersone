@@ -28,9 +28,7 @@ export interface IPerson {
     superUser?: boolean
 }
 
-interface IEntities {
-    [id: string]: Object
-}
+
 
 const useStyles = makeStyles({
     center: {
@@ -80,20 +78,6 @@ const App: React.FC = props => {
     const superUser = useSelector(superUserPeopleSelector)
     const idArray = useSelector(extractIdSelector)
     const entitiesSelec: any = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store
-
-    useEffect(() => {
-        const entities: IEntities = people.reduce((prev, current) => {
-            return {
-                ...prev, [current.id]: current
-            }
-        }, {})
-
-        // console.log("entities: " + JSON.stringify(entities))
-        dispatch(addEntities(entities))
-        dispatch(addIdKeys(idArray))
-
-
-    }, [people, dispatch, idArray]);
 
     // prendo ogni numero nell'array e lo metto come indice di ricerca nell'oggetto
     idArray.forEach(key => console.log("key: " + key + "\n entities[key]: " + JSON.stringify(entitiesSelec[key])))

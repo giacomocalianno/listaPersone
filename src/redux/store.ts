@@ -1,11 +1,11 @@
 import {combineReducers, createStore} from '@reduxjs/toolkit'
-import {entitiesReducer, keysReducer, peopleReducer} from "./reducer";
+import {entitiesReducer, IEntities, keysReducer, peopleReducer} from './reducer'
 import {composeWithDevTools} from "redux-devtools-extension";
 import {IPerson} from '../home/App'
 
 export interface IRootState {
     people: IPerson[]
-    entities: Object
+    entities: IEntities
     keys: string[]
 }
 
