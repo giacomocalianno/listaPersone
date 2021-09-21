@@ -82,7 +82,7 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
                         <Typography component="span" variant="body2">
-                            <b> Super user: </b> {superUser?.toString()}
+                            <b> Super user: </b> {superUser ? superUser : false}
                         </Typography>
                     </DialogContentText>
                 </DialogContent>

@@ -5,15 +5,15 @@ import Intestazione from './Intestazione'
 import {CircularProgress, Container, makeStyles} from '@material-ui/core'
 import {useFetchPeopleList} from './useFetchPeopleList'
 import {useDispatch, useSelector} from 'react-redux'
-import {addEntities, addIdKeys, addPeople} from '../redux/actions'
+import {addPeople, flipCheck} from '../redux/actions'
 import {
     checkedPeopleSelector,
     entitiesSelector,
-    extractIdSelector,
-    peopleSelector,
+    keysSelector,
     superUserPeopleSelector,
-    uncheckedPeopleSelector
+    uncheckedPeopleSelector,
 } from '../redux/selectors'
+import {IPersonEntities} from "../redux/reducer";
 
 export interface IPerson {
     createdAt: string
@@ -27,8 +27,6 @@ export interface IPerson {
     checked?: boolean
     superUser?: boolean
 }
-
-
 
 const useStyles = makeStyles({
     center: {
@@ -71,16 +69,25 @@ const App: React.FC = props => {
         dispatch(addPeople(fetchResults.people))
     }, [dispatch, fetchResults.people])
 
-    const people = useSelector(peopleSelector)
+    // const people = useSelector(peopleSelector)
 
-    const checkedPeople = useSelector(checkedPeopleSelector)
-    const uncheckedPeople = useSelector(uncheckedPeopleSelector)
-    const superUser = useSelector(superUserPeopleSelector)
-    const idArray = useSelector(extractIdSelector)
-    const entitiesSelec: any = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store
+    const entitiesSelec: IPersonEntities = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store
+    const keysSelec: string[] = useSelector(keysSelector)
+    const checkedPeople: IPerson[] = useSelector(checkedPeopleSelector)
+    const uncheckedPeople: IPerson[] = useSelector(uncheckedPeopleSelector)
+    const superUser: IPerson[] = useSelector(superUserPeopleSelector)
+    // console.log("entitiesSelec: " + JSON.stringify(entitiesSelec))
+    // console.log("keysSelector: " + keysSelec)
+
+    useEffect(() => {
+        let arrayPerson: any = []
+        keysSelec.forEach((key: string) => arrayPerson.push(entitiesSelec[key]))
+        // console.log(arrayPerson)
+        dispatch(flipCheck(arrayPerson))
+    }, [dispatch, keysSelec, entitiesSelec]);
 
     // prendo ogni numero nell'array e lo metto come indice di ricerca nell'oggetto
-    idArray.forEach(key => console.log("key: " + key + "\n entities[key]: " + JSON.stringify(entitiesSelec[key])))
+    // idArray.forEach((key: string) => console.log("key: " + key + "\n entities[key]: " + JSON.stringify(entitiesSelec[key])))
 
     return (
         <Container>
@@ -107,16 +114,14 @@ const App: React.FC = props => {
                 <div className="col">
                     <span> Arrivano dal backend con checked == true </span>
                     {!fetchResults.fetching && !fetchResults.error &&
-                    <HomeContainer arrowDirection={'right'}
-                                   people={checkedPeople}/>}
+                    <HomeContainer arrowDirection={'right'} people={checkedPeople} superUser={superUser}/>}
                 </div>
 
                 {/* colonna destra, persone con checked = false */}
                 <div className="col">
                     <span> Arrivano dal backend con checked == false </span>
                     {!fetchResults.fetching && !fetchResults.error &&
-                    <HomeContainer arrowDirection={'left'}
-                                   people={uncheckedPeople}/>}
+                    <HomeContainer arrowDirection={'left'} people={uncheckedPeople} superUser={superUser}/>}
                 </div>
             </div>
         </Container>

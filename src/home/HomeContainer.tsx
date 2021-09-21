@@ -3,20 +3,24 @@ import {List} from "@material-ui/core";
 import DetailItem from "./components/DetailItem";
 import {IPerson} from "./App";
 import PersonDetailDialog from "./components/PersonDetailDialog";
+import {useSelector} from "react-redux";
+import {IRootState} from "../redux/store";
 
 interface IHomeContainerProps {
     people?: IPerson[];
     arrowDirection: string
+    superUser: IPerson[]
 }
 
 const HomeContainer: FC<IHomeContainerProps> = props => {
 
-    const {people, arrowDirection} = props;
-    // console.log(people)
+    const {people, arrowDirection, superUser} = props;
+
+    const superUserPeople: IPerson[] = useSelector((state: IRootState) => state.flipSuperUser)
 
     // FIXME utilizziam una sola parte di state per mostrare il dialog
     const [clicked, setClicked] = useState(false)
-    const [person, setPerson] = useState<IPerson>()
+    const [personDialog, setPersonDialog] = useState<IPerson>()
 
     const handleItemClose = () => {
         // funzione che chiude il dialog
@@ -28,7 +32,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
         // funzione che apre il dialog e visualizza la persona passata
         console.log("Apro il dialog")
         setClicked(true)
-        setPerson(person)
+        setPersonDialog(person)
     }
 
     return (
@@ -44,7 +48,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
                 </List>
             </div>
             {/* se clicked è true allora è stato cliccato il bottone per visualizzare il dialog */}
-            {clicked && <PersonDetailDialog person={person} open={clicked} handleItemClose={handleItemClose}/>}
+            {clicked && <PersonDetailDialog person={personDialog} open={clicked} handleItemClose={handleItemClose}/>}
         </div>
     );
 };

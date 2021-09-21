@@ -15,9 +15,9 @@ export const addIdKeys = (keys: string[]) => {
 }
 
 export const flipCheck = (person: IPerson) => {
-    return {type: actionTypes.FLIP_CHECK, payload: person}
+    return {type: actionTypes.FLIP, payload: person}
 }
 
 export const superUserPerson = (person: IPerson) => {
-    return {type: actionTypes.SUPERUSER, payload: person}
+    return {type: actionTypes.FLIPSUPERUSER, payload: person}
 }

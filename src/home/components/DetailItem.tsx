@@ -9,22 +9,25 @@ import {useDispatch} from 'react-redux'
 interface IDetailListProps {
     person: IPerson
     arrowDirection: string
+    superUser?: IPerson[]
+
     showClickedInfo(person?: IPerson): void
 }
 
 const DetailItem: FC<IDetailListProps> = props => {
 
     const {showClickedInfo, person, arrowDirection} = props;
+
     const dispatch = useDispatch()
 
     const handleFlipDispatch = (person: IPerson) => {
         dispatch(flipCheck(person))
-        // dispatch(changeCheckedState(person))
     }
     const handleSuperUserDispatch = (person: IPerson) => {
         dispatch(superUserPerson(person))
-        // dispatch(changeSuperUserState(person))
     }
+
+    // const superuserPerson = useSelector((state: IRootState) => state.flipSuperUser)
 
     return (
         <div>
@@ -33,13 +36,14 @@ const DetailItem: FC<IDetailListProps> = props => {
                     <ListItem onDoubleClick={() => handleSuperUserDispatch(person)}>
                         {/* avatar */}
                         <ListItemAvatar>
-                            <Avatar src={person?.avatar} alt="avatar"/>
+                            <Avatar src={person.avatar} alt="avatar"/>
                         </ListItemAvatar>
 
                         {/* nome / se la persona è superuser vedo stella altrimenti no*/}
                         <ListItemText>
-                            {person?.name} &nbsp;
+                            {person.name} &nbsp;
                             {person.superUser ? <Star/> : null}
+                            {/*{personProva?.superUser ? <Star/> : null}*/}
                         </ListItemText>
 
                         {/* bottone more info */}
@@ -49,12 +53,6 @@ const DetailItem: FC<IDetailListProps> = props => {
 
                         {/* controllo la variabile arrowDirection e a seconda del valore visualizzo o freccia a destra o sinistra*/}
                         {arrowDirection === "right" ?
-                            // (<IconButton aria-label="delete" onClick={() => setCheckedUnchecked(person)}>
-                            //     <ArrowForward/>
-                            // </IconButton>) :
-                            // (<IconButton aria-label="delete" onClick={() => setCheckedUnchecked(person)}>
-                            //     <ArrowBack/>
-                            // </IconButton>)
                             (<IconButton aria-label="delete" onClick={() => handleFlipDispatch(person)}>
                                 <ArrowForward/>
                             </IconButton>) :
