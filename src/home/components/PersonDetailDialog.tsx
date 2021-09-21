@@ -30,7 +30,7 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
 
     const classes = useStyles();
     const {person, open, handleItemClose} = props;
-    const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked, superUser} = person || {};
+    const {createdAt, name, surname, birthDate, birthCity, birthCoutry, checked} = person || {};
     console.log("person : " + JSON.stringify(person))
 
     return (
@@ -82,7 +82,7 @@ const PersonDetailDialog: React.FC<IPersonDetailsDialogProps> = (props) => {
                     </DialogContentText>
                     <DialogContentText className={classes.dialog}>
                         <Typography component="span" variant="body2">
-                            <b> Super user: </b> {superUser ? superUser : false}
+                            <b> Super user: </b> {false ? false : false}
                         </Typography>
                     </DialogContentText>
                 </DialogContent>

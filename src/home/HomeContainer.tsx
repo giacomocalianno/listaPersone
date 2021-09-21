@@ -16,7 +16,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
 
     const {people, arrowDirection, superUser} = props;
 
-    const superUserPeople: IPerson[] = useSelector((state: IRootState) => state.flipSuperUser)
+    //const superUserPeople: IPerson[] = useSelector((state: IRootState) => state.flipSuperUser)
 
     // FIXME utilizziam una sola parte di state per mostrare il dialog
     const [clicked, setClicked] = useState(false)

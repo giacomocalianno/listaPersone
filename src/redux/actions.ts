@@ -21,3 +21,7 @@ export const flipCheck = (person: IPerson) => {
 export const superUserPerson = (person: IPerson) => {
     return {type: actionTypes.FLIPSUPERUSER, payload: person}
 }
+
+export const toogleSuperAction = (id: string) => {
+    return {type: actionTypes.TOOGLE_SUPERUSER, payload: id}
+}

@@ -5,24 +5,34 @@ import {IPerson} from '../home/App'
 // Root selector
 // export const peopleSelector = (state: IRootState) => state.people
 export const entitiesSelector = (state: IRootState) => state.entities
-export const superUserSelector = (state: IRootState) => state.flipSuperUser
+//export const superUserKeysSelector = (state: IRootState) => state.flipSuperUser
 export const keysSelector = (state: IRootState) => state.keys
 
-export const peopleSelector = (state: IRootState) => state.flipCheck
+export const checkedKeysSelector = (state: IRootState) => state.checkedKeys
+export const uncheckedKeysSelector = (state: IRootState) => state.uncheckedKeys
+export const superUserKeysSelector = (state: IRootState) => state.superUserKeys
 // selector
 export const checkedPeopleSelector = createSelector(
-    peopleSelector,
-    (people) => people.filter((persona: IPerson) => persona.checked /*&& persona.birthDate > oggi -18*/)
+    checkedKeysSelector,
+    entitiesSelector,
+    (keys,entities) => keys.map(key => entities[key])
 )
 
 export const uncheckedPeopleSelector = createSelector(
-    peopleSelector,
-    people => people.filter((persona: IPerson) => !persona.checked)
+    uncheckedKeysSelector,
+    entitiesSelector,
+    (keys,entities) => keys.map(key => entities[key])
 )
 
 export const superUserPeopleSelector = createSelector(
-    superUserSelector,
-    people => people.filter((persona: IPerson) => !!persona.superUser)
+    superUserKeysSelector,
+    entitiesSelector,
+    (keys,entities) => keys.map(key => entities[key])
+)
+
+export const superUserPeopleLengthSelector = createSelector(
+    superUserKeysSelector,
+    (keys) => keys.length
 )
 
 // selector che combina piu parti di state

@@ -42,7 +42,7 @@ const DetailItem: FC<IDetailListProps> = props => {
                         {/* nome / se la persona è superuser vedo stella altrimenti no*/}
                         <ListItemText>
                             {person.name} &nbsp;
-                            {person.superUser ? <Star/> : null}
+                            {false ? <Star/> : null}
                             {/*{personProva?.superUser ? <Star/> : null}*/}
                         </ListItemText>
 

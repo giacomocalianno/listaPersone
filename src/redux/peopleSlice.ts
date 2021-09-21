@@ -32,7 +32,7 @@ export const peopleSlice = createSlice({
                 if (person.id === action.payload.id) {
                     return {
                         ...action.payload,
-                        superUser: !action.payload.superUser
+                        superUser: false
                     }
                 } else {
                     return person

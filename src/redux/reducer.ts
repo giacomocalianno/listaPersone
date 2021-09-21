@@ -72,31 +72,44 @@ export const keysReducer = ((state: string[] = [], action: IAction<IPerson[]>): 
     }
 })
 
-export const flipCheckReducer = ((state: IPerson[] = [], action: IAction<IPerson>) => {
+export const checkedKeysReducer = ((state: string[] = [], action: IAction<IPerson[]>): string[] => {
     switch (action.type) {
         case actionTypes.ADD_PEOPLE: {
-            const act = action as IAction<IPerson>
-            return act.payload
+            const act = action as IAction<IPerson[]>
+            return act.payload.filter(person => !!person.checked).map(person => person.id)
         }
-        case actionTypes.FLIP:
-            return state.map(persona => persona.id === action.payload.id ?
-                ({...persona, checked: !persona.checked})
-                : persona)
         default:
             return state
     }
 })
 
-export const flipSuperUserReducer = ((state: IPerson[] = [], action: IAction<IPerson>) => {
+export const uncheckedKeysReducer = ((state: string[] = [], action: IAction<IPerson[]>): string[] => {
     switch (action.type) {
         case actionTypes.ADD_PEOPLE: {
-            const act = action as IAction<IPerson>
-            return act.payload
+            const act = action as IAction<IPerson[]>
+            return act.payload.filter(person => !person.checked).map(person => person.id)
         }
-        case actionTypes.FLIPSUPERUSER:
+        /* case actionTypes.FLIP:
+             return state.map(persona => persona.id === action.payload.id ?
+                 ({...persona, checked: !persona.checked})
+                 : persona)*/
+        default:
+            return state
+    }
+})
+
+export const superUserKeysReducer = ((state: string[] = [], action: IAction<string>): string[] => {
+    switch (action.type) {
+        case actionTypes.ADD_PEOPLE: {
+            return []
+        }
+        case actionTypes.TOOGLE_SUPERUSER:
+            const isPresent = state.some(key => key === action.payload)
+            return isPresent ? state.filter(key => key != action.payload) : [...state, action.payload]
+        /*case actionTypes.FLIPSUPERUSER:
             return state.map(person => person.id === action.payload.id ?
                 ({...person, superUser: !person.superUser})
-                : person)
+                : person)*/
         default:
             return state
     }

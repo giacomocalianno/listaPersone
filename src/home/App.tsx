@@ -25,7 +25,6 @@ export interface IPerson {
     birthCoutry: string
     id: string,
     checked?: boolean
-    superUser?: boolean
 }
 
 const useStyles = makeStyles({

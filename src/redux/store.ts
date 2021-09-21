@@ -1,22 +1,28 @@
 import {combineReducers, createStore} from '@reduxjs/toolkit'
-import {entitiesReducer, flipCheckReducer, flipSuperUserReducer, IPersonEntities, keysReducer,} from './reducer'
-import {composeWithDevTools} from "redux-devtools-extension";
-import {IPerson} from "../home/App";
+import {
+    checkedKeysReducer,
+    entitiesReducer,
+    IPersonEntities,
+    keysReducer,
+    superUserKeysReducer,
+    uncheckedKeysReducer,
+} from './reducer'
+import {composeWithDevTools} from 'redux-devtools-extension'
 
 export interface IRootState {
     entities: IPersonEntities
     keys: string[],
-    flipCheck: IPerson[],
-    flipSuperUser: IPerson[]
+    checkedKeys: string[],
+    uncheckedKeys: string[],
+    superUserKeys: string[]
 }
 
 export const rootReducer = combineReducers<IRootState, any>({
     entities: entitiesReducer,
     keys: keysReducer,
-    //@ts-ignore
-    flipCheck: flipCheckReducer,
-    //@ts-ignore
-    flipSuperUser: flipSuperUserReducer
+    checkedKeys: checkedKeysReducer,
+    uncheckedKeys: uncheckedKeysReducer,
+    superUserKeys: superUserKeysReducer
 })
 
 export const store = createStore(rootReducer, composeWithDevTools())
