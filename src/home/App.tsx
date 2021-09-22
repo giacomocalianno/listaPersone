@@ -5,15 +5,8 @@ import Intestazione from './Intestazione'
 import {CircularProgress, Container, makeStyles} from '@material-ui/core'
 import {useFetchPeopleList} from './useFetchPeopleList'
 import {useDispatch, useSelector} from 'react-redux'
-import {addPeople, flipCheck} from '../redux/actions'
-import {
-    checkedPeopleSelector,
-    entitiesSelector,
-    keysSelector,
-    superUserPeopleSelector,
-    uncheckedPeopleSelector,
-} from '../redux/selectors'
-import {IPersonEntities} from "../redux/reducer";
+import {addPeople} from '../redux/actions'
+import {checkedPeopleSelector, superUserPeopleSelector, uncheckedPeopleSelector,} from '../redux/selectors'
 
 export interface IPerson {
     createdAt: string
@@ -25,6 +18,7 @@ export interface IPerson {
     birthCoutry: string
     id: string,
     checked?: boolean
+    superUser?: boolean
 }
 
 const useStyles = makeStyles({
@@ -70,20 +64,21 @@ const App: React.FC = props => {
 
     // const people = useSelector(peopleSelector)
 
-    const entitiesSelec: IPersonEntities = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store
-    const keysSelec: string[] = useSelector(keysSelector)
+    // const entitiesSelec: IPersonEntities = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store
+    // const keysSelec: string[] = useSelector(keysSelector)
+
     const checkedPeople: IPerson[] = useSelector(checkedPeopleSelector)
     const uncheckedPeople: IPerson[] = useSelector(uncheckedPeopleSelector)
     const superUser: IPerson[] = useSelector(superUserPeopleSelector)
     // console.log("entitiesSelec: " + JSON.stringify(entitiesSelec))
     // console.log("keysSelector: " + keysSelec)
 
-    useEffect(() => {
-        let arrayPerson: any = []
-        keysSelec.forEach((key: string) => arrayPerson.push(entitiesSelec[key]))
-        // console.log(arrayPerson)
-        dispatch(flipCheck(arrayPerson))
-    }, [dispatch, keysSelec, entitiesSelec]);
+    // useEffect(() => {
+    //     let arrayPerson: any = []
+    //     keysSelec.forEach((key: string) => arrayPerson.push(entitiesSelec[key]))
+    //     // console.log(arrayPerson)
+    //     dispatch((arrayPerson))
+    // }, [dispatch, keysSelec, entitiesSelec]);
 
     // prendo ogni numero nell'array e lo metto come indice di ricerca nell'oggetto
     // idArray.forEach((key: string) => console.log("key: " + key + "\n entities[key]: " + JSON.stringify(entitiesSelec[key])))

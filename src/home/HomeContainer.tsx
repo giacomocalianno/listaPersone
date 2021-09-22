@@ -3,8 +3,6 @@ import {List} from "@material-ui/core";
 import DetailItem from "./components/DetailItem";
 import {IPerson} from "./App";
 import PersonDetailDialog from "./components/PersonDetailDialog";
-import {useSelector} from "react-redux";
-import {IRootState} from "../redux/store";
 
 interface IHomeContainerProps {
     people?: IPerson[];
@@ -14,7 +12,7 @@ interface IHomeContainerProps {
 
 const HomeContainer: FC<IHomeContainerProps> = props => {
 
-    const {people, arrowDirection, superUser} = props;
+    const {people, arrowDirection} = props;
 
     //const superUserPeople: IPerson[] = useSelector((state: IRootState) => state.flipSuperUser)
 
@@ -38,7 +36,7 @@ const HomeContainer: FC<IHomeContainerProps> = props => {
     return (
         <div>
             <div className="row m-2 w-100 d-flex justify-content-center align-items-center"
-                 style={{backgroundColor: "lightgray", borderRadius: "8px"}}>
+                 style={{backgroundColor: "whitesmoke", borderRadius: "8px"}}>
                 <List className="w-100">
                     {people?.map((person: IPerson) => (
                         <DetailItem person={person} key={person.id} arrowDirection={arrowDirection}

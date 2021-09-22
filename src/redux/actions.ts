@@ -14,14 +14,13 @@ export const addIdKeys = (keys: string[]) => {
     return {type: actionTypes.ADD_KEYS, payload: keys}
 }
 
-export const flipCheck = (person: IPerson) => {
-    return {type: actionTypes.FLIP, payload: person}
+export const check = (id: string) => {
+    return {type: actionTypes.FLIP, payload: id}
+}
+export const uncheck = (id: string) => {
+    return {type: actionTypes.FLIP, payload: id}
 }
 
-export const superUserPerson = (person: IPerson) => {
-    return {type: actionTypes.FLIPSUPERUSER, payload: person}
-}
-
-export const toogleSuperAction = (id: string) => {
-    return {type: actionTypes.TOOGLE_SUPERUSER, payload: id}
+export const toggleSuperAction = (id: string) => {
+    return {type: actionTypes.TOGGLE_SUPERUSER, payload: id}
 }

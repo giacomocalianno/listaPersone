@@ -3,8 +3,9 @@ import {Avatar, Button, IconButton, ListItem, ListItemAvatar, ListItemText} from
 import {IPerson} from "../App";
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import {ArrowBack, ArrowForward, Star} from "@material-ui/icons";
-import {flipCheck, superUserPerson} from "../../redux/actions";
-import {useDispatch} from 'react-redux'
+import {check, toggleSuperAction, uncheck} from "../../redux/actions";
+import {useDispatch, useSelector} from 'react-redux'
+import {IRootState} from "../../redux/store";
 
 interface IDetailListProps {
     person: IPerson
@@ -19,12 +20,21 @@ const DetailItem: FC<IDetailListProps> = props => {
     const {showClickedInfo, person, arrowDirection} = props;
 
     const dispatch = useDispatch()
+    // prendo gli utenti superUser
+    const superUserSelect = useSelector((state: IRootState) => state.superUserKeys)
+    // controllo se l'id dell'utente corrente è presente in questo array
+    const isPresent = superUserSelect.some(key => key === person.id)
+    // se è presente assegno a true la variabile superuser
+    isPresent ? person["superUser"] = true : person["superUser"] = false
 
-    const handleFlipDispatch = (person: IPerson) => {
-        dispatch(flipCheck(person))
+    const handleCheckDispatch = (person: IPerson) => {
+        dispatch(check(person.id))
+    }
+    const handleUncheckDispatch = (person: IPerson) => {
+        dispatch(uncheck(person.id))
     }
     const handleSuperUserDispatch = (person: IPerson) => {
-        dispatch(superUserPerson(person))
+        dispatch(toggleSuperAction(person.id))
     }
 
     // const superuserPerson = useSelector((state: IRootState) => state.flipSuperUser)
@@ -42,8 +52,7 @@ const DetailItem: FC<IDetailListProps> = props => {
                         {/* nome / se la persona è superuser vedo stella altrimenti no*/}
                         <ListItemText>
                             {person.name} &nbsp;
-                            {false ? <Star/> : null}
-                            {/*{personProva?.superUser ? <Star/> : null}*/}
+                            {person.superUser ? <Star/> : null}
                         </ListItemText>
 
                         {/* bottone more info */}
@@ -53,10 +62,10 @@ const DetailItem: FC<IDetailListProps> = props => {
 
                         {/* controllo la variabile arrowDirection e a seconda del valore visualizzo o freccia a destra o sinistra*/}
                         {arrowDirection === "right" ?
-                            (<IconButton aria-label="delete" onClick={() => handleFlipDispatch(person)}>
+                            (<IconButton aria-label="delete" onClick={() => handleCheckDispatch(person)}>
                                 <ArrowForward/>
                             </IconButton>) :
-                            (<IconButton aria-label="delete" onClick={() => handleFlipDispatch(person)}>
+                            (<IconButton aria-label="delete" onClick={() => handleUncheckDispatch(person)}>
                                 <ArrowBack/>
                             </IconButton>)
                         }

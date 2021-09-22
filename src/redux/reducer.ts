@@ -65,51 +65,62 @@ export const keysReducer = ((state: string[] = [], action: IAction<IPerson[]>): 
     switch (action.type) {
         case actionTypes.ADD_PEOPLE:
             return action.payload.map(value => value.id)
-        /*        case actionTypes.ADD_KEYS:
-                    return action.payload*/
         default:
             return state
     }
 })
 
-export const checkedKeysReducer = ((state: string[] = [], action: IAction<IPerson[]>): string[] => {
+export const checkedKeysReducer = ((state: string[] = [], action: IAction<string> | IAction<IPerson[]>): string[] => {
     switch (action.type) {
         case actionTypes.ADD_PEOPLE: {
+            // action qui è di tipo IPerson[]
             const act = action as IAction<IPerson[]>
             return act.payload.filter(person => !!person.checked).map(person => person.id)
         }
+        case actionTypes.FLIP: {
+            // action qui è di tipo string
+            const act = action as IAction<string>
+            const isPresent = state.some(key => key === act.payload)
+            console.log("is present checked: " + isPresent)
+
+            return isPresent ? (state.filter(key => key !== act.payload)) : [...state, act.payload]
+        }
         default:
             return state
     }
 })
 
-export const uncheckedKeysReducer = ((state: string[] = [], action: IAction<IPerson[]>): string[] => {
+export const uncheckedKeysReducer = ((state: string[] = [], action: IAction<string> | IAction<IPerson[]>): string[] => {
     switch (action.type) {
         case actionTypes.ADD_PEOPLE: {
+            // action qui è di tipo IPerson[]
             const act = action as IAction<IPerson[]>
             return act.payload.filter(person => !person.checked).map(person => person.id)
         }
-        /* case actionTypes.FLIP:
-             return state.map(persona => persona.id === action.payload.id ?
-                 ({...persona, checked: !persona.checked})
-                 : persona)*/
+        case actionTypes.FLIP: {
+            // action qui è di tipo string
+            const act = action as IAction<string>
+            const isPresent = state.some(key => key === act.payload)
+            console.log("is present unchecked: " + isPresent)
+
+            return isPresent ? (state.filter(key => key !== act.payload)) : [...state, act.payload]
+        }
         default:
             return state
     }
 })
 
 export const superUserKeysReducer = ((state: string[] = [], action: IAction<string>): string[] => {
+    // qui l'action è solo di tipo string quindi non serve il cast --> act = action as IAction<...>
     switch (action.type) {
         case actionTypes.ADD_PEOPLE: {
             return []
         }
-        case actionTypes.TOOGLE_SUPERUSER:
+        case actionTypes.TOGGLE_SUPERUSER:
+            console.log(action.payload)
             const isPresent = state.some(key => key === action.payload)
-            return isPresent ? state.filter(key => key != action.payload) : [...state, action.payload]
-        /*case actionTypes.FLIPSUPERUSER:
-            return state.map(person => person.id === action.payload.id ?
-                ({...person, superUser: !person.superUser})
-                : person)*/
+            console.log("is present: " + isPresent)
+            return isPresent ? state.filter(key => key !== action.payload) : [...state, action.payload]
         default:
             return state
     }
