@@ -75,15 +75,18 @@ export const checkedKeysReducer = ((state: string[] = [], action: IAction<string
         case actionTypes.ADD_PEOPLE: {
             // action qui è di tipo IPerson[]
             const act = action as IAction<IPerson[]>
-            return act.payload.filter(person => !!person.checked).map(person => person.id)
+            // filtro sull'action payload (le entities) chi è checked e col map mi prendo gli id
+            return act.payload.filter(person => person.checked).map(person => person.id)
         }
         case actionTypes.FLIP: {
             // action qui è di tipo string
             const act = action as IAction<string>
+            // nell'array di id di checked è presente l'id della persona che ho cliccato?
             const isPresent = state.some(key => key === act.payload)
             console.log("is present checked: " + isPresent)
 
-            return isPresent ? (state.filter(key => key !== act.payload)) : [...state, act.payload]
+            // se è si lo tolgo (perchè vuol dire che è checked), altrimenti lo aggiungo allo stato
+            return isPresent ? (state.filter(key => key !== act.payload)) : [act.payload, ...state]
         }
         default:
             return state
@@ -95,15 +98,18 @@ export const uncheckedKeysReducer = ((state: string[] = [], action: IAction<stri
         case actionTypes.ADD_PEOPLE: {
             // action qui è di tipo IPerson[]
             const act = action as IAction<IPerson[]>
+            // filtro sull'action payload (le entities) chi è unchecked e col map mi prendo gli id
             return act.payload.filter(person => !person.checked).map(person => person.id)
         }
         case actionTypes.FLIP: {
             // action qui è di tipo string
             const act = action as IAction<string>
+            // nell'array di id di unchecked è presente l'id della persona che ho cliccato?
             const isPresent = state.some(key => key === act.payload)
             console.log("is present unchecked: " + isPresent)
 
-            return isPresent ? (state.filter(key => key !== act.payload)) : [...state, act.payload]
+            // se è si lo tolgo (perchè vuol dire che è unchecked), altrimenti lo aggiungo allo stato
+            return isPresent ? (state.filter(key => key !== act.payload)) : [act.payload, ...state]
         }
         default:
             return state

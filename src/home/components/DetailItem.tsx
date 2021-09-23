@@ -5,7 +5,7 @@ import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import {ArrowBack, ArrowForward, Star} from "@material-ui/icons";
 import {check, toggleSuperAction, uncheck} from "../../redux/actions";
 import {useDispatch, useSelector} from 'react-redux'
-import {IRootState} from "../../redux/store";
+import {superUserKeysSelector} from "../../redux/selectors";
 
 interface IDetailListProps {
     person: IPerson
@@ -21,7 +21,7 @@ const DetailItem: FC<IDetailListProps> = props => {
 
     const dispatch = useDispatch()
     // prendo gli utenti superUser
-    const superUserSelect = useSelector((state: IRootState) => state.superUserKeys)
+    const superUserSelect = useSelector(superUserKeysSelector)
     // controllo se l'id dell'utente corrente è presente in questo array
     const isPresent = superUserSelect.some(key => key === person.id)
     // se è presente assegno a true la variabile superuser

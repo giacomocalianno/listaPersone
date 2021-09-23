@@ -6,7 +6,12 @@ import {CircularProgress, Container, makeStyles} from '@material-ui/core'
 import {useFetchPeopleList} from './useFetchPeopleList'
 import {useDispatch, useSelector} from 'react-redux'
 import {addPeople} from '../redux/actions'
-import {checkedPeopleSelector, superUserPeopleSelector, uncheckedPeopleSelector,} from '../redux/selectors'
+import {
+    checkedPeopleSelector,
+    superUserPeopleLengthSelector,
+    superUserPeopleSelector,
+    uncheckedPeopleSelector,
+} from '../redux/selectors'
 
 export interface IPerson {
     createdAt: string
@@ -63,13 +68,13 @@ const App: React.FC = props => {
     }, [dispatch, fetchResults.people])
 
     // const people = useSelector(peopleSelector)
-
     // const entitiesSelec: IPersonEntities = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store
     // const keysSelec: string[] = useSelector(keysSelector)
 
     const checkedPeople: IPerson[] = useSelector(checkedPeopleSelector)
     const uncheckedPeople: IPerson[] = useSelector(uncheckedPeopleSelector)
     const superUser: IPerson[] = useSelector(superUserPeopleSelector)
+    const superUserLengthSelector = useSelector(superUserPeopleLengthSelector)
     // console.log("entitiesSelec: " + JSON.stringify(entitiesSelec))
     // console.log("keysSelector: " + keysSelec)
 
@@ -85,7 +90,7 @@ const App: React.FC = props => {
 
     return (
         <Container>
-            <Intestazione superUserNumber={superUser.length}/>
+            <Intestazione superUserNumber={superUserLengthSelector}/>
             <div className="row p-2">
                 {/*Prima colonna*/}
                 {/*se fetching è true allora non ha finito di caricare i dati e lo spinner è attivo*/}

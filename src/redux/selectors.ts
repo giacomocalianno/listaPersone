@@ -3,7 +3,7 @@ import {IRootState} from './store'
 
 // Root selector
 // export const peopleSelector = (state: IRootState) => state.people
-//export const superUserKeysSelector = (state: IRootState) => state.flipSuperUser
+// export const superUserKeysSelector = (state: IRootState) => state.flipSuperUser
 
 export const entitiesSelector = (state: IRootState) => state.entities
 export const keysSelector = (state: IRootState) => state.keys
