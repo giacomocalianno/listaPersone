@@ -3,7 +3,7 @@ import '../App.css'
 import HomeContainer from './HomeContainer'
 import Intestazione from './Intestazione'
 import {CircularProgress, Container, makeStyles} from '@material-ui/core'
-import {useFetchPeopleList} from './useFetchPeopleList'
+import {useGetFetch} from './useGetFetch'
 import {useDispatch, useSelector} from 'react-redux'
 import {addPeople} from '../redux/actions'
 import {
@@ -61,11 +61,11 @@ const App: React.FC = props => {
     const dispatch = useDispatch()
 
     // recupera le persone attraverso l'hook personalizzato
-    const fetchResults = useFetchPeopleList(URL)
+    const fetchResults = useGetFetch<IPerson[]>(URL)
 
     useEffect(() => {
-        dispatch(addPeople(fetchResults.people))
-    }, [dispatch, fetchResults.people])
+        fetchResults.data && dispatch(addPeople(fetchResults.data))
+    }, [dispatch, fetchResults.data])
 
     // const people = useSelector(peopleSelector)
     // const entitiesSelec: IPersonEntities = useSelector(entitiesSelector) // mi prendo le entità (id: object) dallo store

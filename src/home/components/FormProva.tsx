@@ -74,7 +74,7 @@ const FormProva = () => {
     }
 
     const validationSchema = Yup.object({
-        name: Yup.string().required("Name is required"),
+        name: Yup.string().required("nome obbligatorio"),
         surname: Yup.string().required("Surname is required"),
         birthDate: Yup.string().required("Birth date is required"),
         birthCity: Yup.string().required("Birth city is required"),
@@ -154,7 +154,7 @@ const FormProva = () => {
                                 flexDirection: "column",
                                 marginTop: "1%"
                             }}>
-                                <label style={{fontWeight: 650}}>Birth city</label>
+                                <label style={{fontWeight: 650}}>Birth city (select)</label>
                                 <Field placeholder="Birth city"
                                        id="birthCity"
                                        name="birthCity"
@@ -168,7 +168,7 @@ const FormProva = () => {
                                     flexDirection: "column",
                                     marginTop: "1%"
                                 }}>
-                                    <label style={{fontWeight: 650}}>Birth country</label>
+                                    <label style={{fontWeight: 650}}>Birth country (autocomplete)</label>
                                     <Field placeholder="Birth country"
                                            id="birthCountry"
                                            name="birthCountry"

@@ -1,29 +1,28 @@
 import {useEffect, useState} from 'react'
-import {IPerson} from './App'
 
-export interface IFetchPeopleListReturn {
+export interface IGetFetchReturn<R> {
     fetching: boolean,
     error: string | null,
-    people: IPerson[]
+    data: R | null
 }
 
 // CUSTOM HOOKS EXAMPLE
 
 /**
  * @param url
- * @return IFetchPeopleListReturn
+ * @return IGetFetchReturn
  */
 
-export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
+export const useGetFetch = <R extends unknown>(url: string): IGetFetchReturn<R> => {
 
-    const [people, setPeople] = useState<IPerson[]>([])
+    const [data, setData] = useState<R | null>(null)
     const [fetching, setFetching] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         // fetch
         (async () => {
-            console.log("fetching in custom hook")
+            console.log('fetching in custom hook')
             try {
                 const res = await fetch(url)
                 if (!res.ok) {
@@ -31,7 +30,7 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
                     setError('Impossibile richiamare il servizio')
                 }
                 const data = await res.json()
-                setPeople(data)
+                setData(data)
 
             } catch (e) {
                 console.error('impossibile richiamre il servizio ', url, ' error', e)
@@ -44,6 +43,6 @@ export const useFetchPeopleList = (url: string): IFetchPeopleListReturn => {
     }, [url])
 
 
-    return {fetching, error, people}
+    return {fetching, error, data}
 }
 
