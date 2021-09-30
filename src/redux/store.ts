@@ -4,6 +4,7 @@ import {
     entitiesReducer,
     IPersonEntities,
     keysReducer,
+    personFormReducer,
     superUserKeysReducer,
     uncheckedKeysReducer,
 } from './reducer'
@@ -14,7 +15,8 @@ export interface IRootState {
     keys: string[],
     checkedKeys: string[],
     uncheckedKeys: string[],
-    superUserKeys: string[]
+    superUserKeys: string[],
+    personForm: object
 }
 
 export const rootReducer = combineReducers<IRootState, any>({
@@ -22,7 +24,8 @@ export const rootReducer = combineReducers<IRootState, any>({
     keys: keysReducer,
     checkedKeys: checkedKeysReducer,
     uncheckedKeys: uncheckedKeysReducer,
-    superUserKeys: superUserKeysReducer
+    superUserKeys: superUserKeysReducer,
+    personForm: personFormReducer
 })
 
 export const store = createStore(rootReducer, composeWithDevTools())

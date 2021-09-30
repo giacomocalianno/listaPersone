@@ -88,8 +88,17 @@ const App: React.FC = props => {
     // prendo ogni numero nell'array e lo metto come indice di ricerca nell'oggetto
     // idArray.forEach((key: string) => console.log("key: " + key + "\n entities[key]: " + JSON.stringify(entitiesSelec[key])))
 
+    const background = "https://lh3.googleusercontent.com/proxy/RLJKliMDe6qh7oL5qEnK2MsAsyH4VYRy9xVHxcFeO8p5kz99qVNUjbctWnsoUZPpQ6RJzNzL15BWBdLFesZewm1L9HugoeHD3RRe_L-sZq8MxH-bPMv6gV_UwXnCNv2caA"
+
     return (
-        <Container>
+        <Container
+            style={{
+                backgroundImage: `url(${background})`,
+                width: "100vw",
+                height: "100vh",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat"
+            }}>
             <Intestazione superUserNumber={superUserLengthSelector}/>
             <div className="row p-2">
                 {/*Prima colonna*/}

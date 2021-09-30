@@ -4,5 +4,6 @@ export const actionTypes = {
     FLIP: "FLIP",
     FLIPSUPERUSER: "FLIPSUPERUSER",
     ADD_ENTITIES: "ADD_ENTITIES",
-    ADD_KEYS: "ADD_KEYS"
+    ADD_KEYS: "ADD_KEYS",
+    ADD_PERSON: "ADD_PERSON"
 }

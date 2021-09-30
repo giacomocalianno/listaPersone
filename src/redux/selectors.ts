@@ -11,6 +11,7 @@ export const keysSelector = (state: IRootState) => state.keys
 export const checkedKeysSelector = (state: IRootState) => state.checkedKeys
 export const uncheckedKeysSelector = (state: IRootState) => state.uncheckedKeys
 export const superUserKeysSelector = (state: IRootState) => state.superUserKeys
+export const personSelector = ((state: IRootState) => state.personForm)
 
 // selector
 export const checkedPeopleSelector = createSelector(

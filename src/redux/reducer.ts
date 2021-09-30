@@ -132,6 +132,15 @@ export const superUserKeysReducer = ((state: string[] = [], action: IAction<stri
     }
 })
 
+export const personFormReducer = ((state: object = {}, action: IAction<object>): object => {
+    switch (action.type) {
+        case actionTypes.ADD_PERSON:
+            return action.payload
+        default:
+            return state;
+    }
+})
+
 
 
 

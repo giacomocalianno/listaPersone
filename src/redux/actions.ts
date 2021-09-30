@@ -24,3 +24,7 @@ export const uncheck = (id: string) => {
 export const toggleSuperAction = (id: string) => {
     return {type: actionTypes.TOGGLE_SUPERUSER, payload: id}
 }
+
+export const addPerson = (person: object) => {
+    return {type: actionTypes.ADD_PERSON, payload: person}
+}
